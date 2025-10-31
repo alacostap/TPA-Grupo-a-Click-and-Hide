@@ -9,5 +9,5 @@ Repositorio de GitHub para el proyecto de Técnicas de Programación Avanzada.
 - David Lopez
 
 ## Requisitos
-- Python >= 3.13.7
-- pygame 2.6.1
+
+Fichero `requitements.txt`
