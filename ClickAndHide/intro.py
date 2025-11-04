@@ -39,6 +39,10 @@ def play_intro(screen, background_image_name="inicio.png"):
                 pygame.quit()
                 exit()
 
+            # Salir de la intro con cualquier tecla o clic
+            elif event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
+                running = False
+
         # ---------- Fondo ----------
         screen.blit(pygame.transform.smoothscale(bg_image, (width, height)), (0, 0))
 
@@ -79,6 +83,6 @@ def play_intro(screen, background_image_name="inicio.png"):
 
         pygame.display.flip()
 
-        # ---------- Fin de animación ----------
+        # ---------- Fin de animación automática ----------
         if elapsed >= move_duration + load_duration:
             running = False

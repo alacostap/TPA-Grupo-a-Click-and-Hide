@@ -1,9 +1,10 @@
 import pygame
 import os
-from menu.achievements_menu import Achievements
+from menu.achievements_menu import AchievementsMenu
 from menu.aboutus_menu import show_about_us_panel
 from menu.options_menu import show_options_panel
 from menu.exit_menu import show_exit_panel
+
 
 def show_main_menu(screen, font, big_font, game_started, player, achievements_manager):
     clock = pygame.time.Clock()
@@ -32,7 +33,7 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
         rect = pygame.Rect(20, start_y + i * (button_height + button_margin), panel_width - 40, button_height)
         buttons.append((rect, text))
 
-    # ----- BACKGROUND -----
+    # ----- FONDO -----
     bg_image = None
     try:
         base_path = os.path.dirname(os.path.dirname(__file__))
@@ -42,7 +43,7 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
     except Exception as e:
         print(f"[MENU] No se pudo cargar fondo: {e}")
 
-    # ----- TITULO -----
+    # ----- TÍTULO -----
     title_text = "CLICK & HIDE"
     title_color = (255, 255, 255)
     base_font_path = os.path.join(os.path.dirname(__file__), "..", "assets", "fonts", "PressStart2P.ttf")
@@ -50,7 +51,7 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
     title_surf = title_font.render(title_text, True, title_color)
     title_rect = title_surf.get_rect(center=(panel_width // 2, 80))
 
-    # ----- MENU LOOP -----
+    # ----- LOOP DEL MENÚ -----
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -69,25 +70,26 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
         else:
             screen.fill((50, 50, 50))
 
-        # ----- DIBUJAR PANEL -----
+        # ----- DIBUJAR PANEL IZQUIERDO -----
         screen.blit(panel_surf, (0, 0))
 
         # ----- DIBUJAR BOTONES -----
         mouse_pos = pygame.mouse.get_pos()
         for rect, text in buttons:
             color = (180, 140, 80) if rect.collidepoint(mouse_pos) else (160, 120, 60)
-            pygame.draw.rect(screen, color, rect)
-            pygame.draw.rect(screen, (0, 0, 0), rect, 2)
+            pygame.draw.rect(screen, color, rect, border_radius=8)
+            pygame.draw.rect(screen, (0, 0, 0), rect, 2, border_radius=8)
             text_surf = font.render(text, True, (255, 255, 255))
             text_rect = text_surf.get_rect(center=rect.center)
             screen.blit(text_surf, text_rect)
 
-        # ----- DIBUJAR TITULO -----
+        # ----- DIBUJAR TÍTULO -----
         screen.blit(title_surf, title_rect)
+
         pygame.display.flip()
         clock.tick(60)
 
-    # ----- ACCIONES DE BOTONES -----
+    # ----- ACCIONES SEGÚN BOTÓN -----
     if choice == "LOGROS":
         game_state = {
             "money": player.money,
@@ -95,15 +97,20 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
             "upgrades_bought": getattr(player, "upgrades_bought", 0)
         }
         achievements_manager.show_panel(screen, game_state)
+        # volver al menú después de cerrar el panel
         return show_main_menu(screen, font, big_font, game_started, player, achievements_manager)
+
     elif choice == "OPCIONES":
         show_options_panel(screen)
         return show_main_menu(screen, font, big_font, game_started, player, achievements_manager)
+
     elif choice == "ABOUT US":
         show_about_us_panel(screen)
         return show_main_menu(screen, font, big_font, game_started, player, achievements_manager)
+
     elif choice == "SALIR":
         show_exit_panel(screen)
+        # Si el usuario cancela salida, regresa al menú
         return show_main_menu(screen, font, big_font, game_started, player, achievements_manager)
 
     return choice

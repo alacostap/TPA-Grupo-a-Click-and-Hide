@@ -8,7 +8,7 @@ from entities.player import Player
 from entities.shop import Shop
 from intro import play_intro
 from menu.main_menu import show_main_menu
-from menu.achievements_menu import Achievements  # Ahora es la clase
+from menu.achievements_menu import AchievementsMenu
 
 pygame.init()
 
@@ -26,10 +26,11 @@ font_big = pygame.font.Font(base_font_path, 28)
 # ----- ESTADO DEL JUEGO -----
 player = Player()
 shop = Shop()
-achievements_manager = Achievements()  # Instanciamos Achievements
+achievements_manager = AchievementsMenu()
 running = True
 state = "menu"
 game_started = False
+header_height = 60  # altura del encabezado
 
 # ----- INTRO -----
 play_intro(screen, "clase.png")
@@ -58,15 +59,25 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 state = "menu"
             elif event.key == pygame.K_F11:
                 pygame.display.toggle_fullscreen()
-        elif state == "playing" and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            if player.click_rect.collidepoint(mouse_pos):
-                player.click()
-            shop.handle_click(mouse_pos, player)
+
+        elif state == "playing":
+            # Click izquierdo
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if player.click_rect.collidepoint(mouse_pos):
+                    player.click()
+                shop.handle_click(mouse_pos, player)
+
+            # Scroll con la rueda
+            shop.handle_scroll(event)
+
+            # Arrastre del slider
+            shop.handle_mouse_events(event, mouse_pos, header_height, HEIGHT - header_height)
 
     # ----- DIBUJOS -----
     if state == "playing":
