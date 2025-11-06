@@ -1,45 +1,53 @@
+"""
+menu/achievements_menu.py
+
+Sistema de logros del juego Click & Hide.
+Gestiona desbloqueo de logros, notificaciones y panel completo de logros.
+"""
+
 import pygame
 import time
-import os
+
 
 class AchievementsMenu:
+    """Gestión de logros y sus notificaciones."""
+
     def __init__(self):
-        """Inicializa el sistema de logros y notificaciones."""
+        """Inicializa logros y lista de notificaciones activas."""
         self.achievements = [
-            {"name": "PRIMER CLICK", "desc": "Haz tu primer click.", "check": lambda s: s.get("total_clicks", 0) >= 1, "completed": False},
-            {"name": "AHORRADOR", "desc": "Alcanza $1,000.", "check": lambda s: s.get("money", 0) >= 1000, "completed": False},
-            {"name": "MILLONARIO", "desc": "Alcanza $1,000,000.", "check": lambda s: s.get("money", 0) >= 1_000_000, "completed": False},
-            {"name": "PRIMERA MEJORA", "desc": "Compra al menos una mejora.", "check": lambda s: s.get("upgrades_bought", 0) > 0, "completed": False},
+            {"name": "PRIMER CLICK", "desc": "Haz tu primer click.",
+             "check": lambda s: s.get("total_clicks", 0) >= 1, "completed": False},
+            {"name": "AHORRADOR", "desc": "Alcanza $1,000.",
+             "check": lambda s: s.get("money", 0) >= 1000, "completed": False},
+            {"name": "MILLONARIO", "desc": "Alcanza $1,000,000.",
+             "check": lambda s: s.get("money", 0) >= 1_000_000, "completed": False},
+            {"name": "PRIMERA MEJORA", "desc": "Compra al menos una mejora.",
+             "check": lambda s: s.get("upgrades_bought", 0) > 0, "completed": False},
         ]
         self.active_notifications = []
 
-    # ----- ACTUALIZAR LOGROS -----
     def update(self, state):
-        """Revisa si se desbloquean nuevos logros y lanza notificaciones."""
+        """Comprueba logros desbloqueados y lanza notificaciones."""
         for ach in self.achievements:
             if not ach["completed"] and ach["check"](state):
                 ach["completed"] = True
                 self.active_notifications.append(AchievementNotification(ach))
 
-    # ----- DIBUJAR NOTIFICACIONES -----
     def draw_notifications(self, screen, font):
-        """Muestra notificaciones activas en pantalla."""
+        """Dibuja notificaciones activas en pantalla."""
         for notif in self.active_notifications[:]:
             notif.draw(screen, font)
             if not notif.update():
                 self.active_notifications.remove(notif)
 
-    # ----- PANEL DE LOGROS -----
     def show_panel(self, screen, state):
-        """Muestra el panel flotante con la lista de logros sobre el menú actual."""
+        """Muestra el panel completo de logros."""
         clock = pygame.time.Clock()
         font = pygame.font.SysFont(None, 24)
         big_font = pygame.font.SysFont(None, 32)
 
-        # Actualiza logros antes de mostrar
         self.update(state)
 
-        # Panel
         panel_width = screen.get_width() * 0.7
         panel_height = screen.get_height() * 0.7
         panel_x = (screen.get_width() - panel_width) // 2
@@ -50,6 +58,7 @@ class AchievementsMenu:
         running = True
         while running:
             clock.tick(60)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -59,32 +68,28 @@ class AchievementsMenu:
                 if event.type == pygame.MOUSEBUTTONDOWN and close_rect.collidepoint(event.pos):
                     running = False
 
-            # ---- DIBUJAR PANEL FLOTA SOBRE EL SCREEN EXISTENTE ----
-            # Panel beige
             pygame.draw.rect(screen, (210, 180, 140), panel_rect, border_radius=12)
             pygame.draw.rect(screen, (50, 50, 50), panel_rect, 3, border_radius=12)
 
-            # Título
             title = big_font.render("LOGROS", True, (0, 0, 0))
             screen.blit(title, (panel_rect.centerx - title.get_width() // 2, panel_rect.y + 15))
 
-            # Botón de cerrar
             pygame.draw.rect(screen, (220, 80, 80), close_rect, border_radius=6)
             pygame.draw.rect(screen, (0, 0, 0), close_rect, 2, border_radius=6)
             x_txt = font.render("X", True, (255, 255, 255))
-            screen.blit(x_txt, (close_rect.centerx - x_txt.get_width() // 2, close_rect.centery - x_txt.get_height() // 2))
+            screen.blit(x_txt, (
+                close_rect.centerx - x_txt.get_width() // 2,
+                close_rect.centery - x_txt.get_height() // 2
+            ))
 
-            # Lista de logros con hover
             mouse_pos = pygame.mouse.get_pos()
             y = panel_rect.y + 60
             for ach in self.achievements:
                 rect = pygame.Rect(panel_rect.x + 20, y, panel_width - 40, 50)
                 color = (100, 220, 100) if ach["completed"] else (220, 100, 100)
-
                 pygame.draw.rect(screen, color, rect, border_radius=6)
                 pygame.draw.rect(screen, (0, 0, 0), rect, 2, border_radius=6)
 
-                # Hover info
                 if rect.collidepoint(mouse_pos):
                     info_surf = font.render(ach["desc"], True, (0, 0, 0))
                     info_bg = pygame.Surface((info_surf.get_width() + 20, info_surf.get_height() + 10))
@@ -92,29 +97,30 @@ class AchievementsMenu:
                     screen.blit(info_bg, (mouse_pos[0] + 10, mouse_pos[1] - 30))
                     screen.blit(info_surf, (mouse_pos[0] + 20, mouse_pos[1] - 25))
 
-                # Texto principal
                 status = "COMPLETADO" if ach["completed"] else "NO COMPLETADO"
                 text_surf = font.render(f"{ach['name']} - {status}", True, (0, 0, 0))
                 screen.blit(text_surf, (rect.x + 10, rect.y + 12))
-
                 y += 60
 
             pygame.display.flip()
 
 
-# ----- CLASE INTERNA NOTIFICACIONES -----
 class AchievementNotification:
+    """Notificación emergente de logro."""
+
     def __init__(self, achievement):
+        """Inicializa notificación con duración y animación."""
         self.achievement = achievement
         self.start_time = time.time()
         self.duration = 3
         self.slide_time = 0.4
 
     def update(self):
-        """Devuelve False si la notificación ya expiró."""
+        """Actualiza duración de la notificación. Devuelve False si expira."""
         return time.time() - self.start_time < self.duration
 
     def draw(self, screen, font):
+        """Dibuja notificación con animación deslizante."""
         notif_width, notif_height = 300, 80
         elapsed = time.time() - self.start_time
 
@@ -137,4 +143,5 @@ class AchievementNotification:
         name_surf = font.render(self.achievement["name"], True, (200, 200, 200))
         surf.blit(title_surf, (10, 10))
         surf.blit(name_surf, (10, 40))
+
         screen.blit(surf, (x, y))

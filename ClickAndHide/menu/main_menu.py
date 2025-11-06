@@ -1,3 +1,11 @@
+"""
+menu/main_menu.py
+
+Menú principal de Click & Hide.
+Muestra opciones como JUGAR, OPCIONES, ABOUT US, LOGROS y SALIR,
+y permite navegar a submenús o iniciar/continuar la partida.
+"""
+
 import pygame
 import os
 from menu.achievements_menu import AchievementsMenu
@@ -7,19 +15,33 @@ from menu.exit_menu import show_exit_panel
 
 
 def show_main_menu(screen, font, big_font, game_started, player, achievements_manager):
+    """
+    Muestra el menú principal y gestiona la interacción del usuario.
+
+    Args:
+        screen (pygame.Surface): Superficie principal donde se dibuja el menú.
+        font (pygame.font.Font): Fuente para los botones.
+        big_font (pygame.font.Font): Fuente para el título.
+        game_started (bool): Indica si la partida ya comenzó.
+        player (object): Instancia del jugador.
+        achievements_manager (AchievementsMenu): Gestor de logros.
+
+    Returns:
+        str | None: Opción seleccionada por el jugador, p.ej. "JUGAR" o "CONTINUAR".
+    """
     clock = pygame.time.Clock()
     running = True
     choice = None
 
     WIDTH, HEIGHT = screen.get_size()
 
-    # ----- PANEL IZQUIERDO -----
+    # Panel izquierdo
     panel_width = WIDTH // 3
     panel_color = (210, 180, 140, 180)
     panel_surf = pygame.Surface((panel_width, HEIGHT), pygame.SRCALPHA)
     panel_surf.fill(panel_color)
 
-    # ----- BOTONES -----
+    # Botones
     if not game_started:
         button_texts = ["JUGAR", "OPCIONES", "ABOUT US", "LOGROS", "SALIR"]
     else:
@@ -33,7 +55,7 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
         rect = pygame.Rect(20, start_y + i * (button_height + button_margin), panel_width - 40, button_height)
         buttons.append((rect, text))
 
-    # ----- FONDO -----
+    # Fondo
     bg_image = None
     try:
         base_path = os.path.dirname(os.path.dirname(__file__))
@@ -43,7 +65,7 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
     except Exception as e:
         print(f"[MENU] No se pudo cargar fondo: {e}")
 
-    # ----- TÍTULO -----
+    # Título
     title_text = "CLICK & HIDE"
     title_color = (255, 255, 255)
     base_font_path = os.path.join(os.path.dirname(__file__), "..", "assets", "fonts", "PressStart2P.ttf")
@@ -51,7 +73,7 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
     title_surf = title_font.render(title_text, True, title_color)
     title_rect = title_surf.get_rect(center=(panel_width // 2, 80))
 
-    # ----- LOOP DEL MENÚ -----
+    # Loop principal
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -64,16 +86,16 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
                         choice = text
                         running = False
 
-        # ----- DIBUJAR FONDO -----
+        # Dibujar fondo
         if bg_image:
             screen.blit(bg_image, (0, 0))
         else:
             screen.fill((50, 50, 50))
 
-        # ----- DIBUJAR PANEL IZQUIERDO -----
+        # Dibujar panel izquierdo
         screen.blit(panel_surf, (0, 0))
 
-        # ----- DIBUJAR BOTONES -----
+        # Dibujar botones
         mouse_pos = pygame.mouse.get_pos()
         for rect, text in buttons:
             color = (180, 140, 80) if rect.collidepoint(mouse_pos) else (160, 120, 60)
@@ -83,13 +105,13 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
             text_rect = text_surf.get_rect(center=rect.center)
             screen.blit(text_surf, text_rect)
 
-        # ----- DIBUJAR TÍTULO -----
+        # Dibujar título
         screen.blit(title_surf, title_rect)
 
         pygame.display.flip()
         clock.tick(60)
 
-    # ----- ACCIONES SEGÚN BOTÓN -----
+    # Acciones según botón
     if choice == "LOGROS":
         game_state = {
             "money": player.money,
@@ -97,7 +119,6 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
             "upgrades_bought": getattr(player, "upgrades_bought", 0)
         }
         achievements_manager.show_panel(screen, game_state)
-        # volver al menú después de cerrar el panel
         return show_main_menu(screen, font, big_font, game_started, player, achievements_manager)
 
     elif choice == "OPCIONES":
@@ -110,7 +131,6 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
 
     elif choice == "SALIR":
         show_exit_panel(screen)
-        # Si el usuario cancela salida, regresa al menú
         return show_main_menu(screen, font, big_font, game_started, player, achievements_manager)
 
     return choice

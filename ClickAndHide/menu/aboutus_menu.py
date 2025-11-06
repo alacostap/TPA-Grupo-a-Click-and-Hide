@@ -1,20 +1,30 @@
-#aboutus_menu.py
+"""
+menu/aboutus_menu.py
+
+Panel emergente "About Us" del juego Click & Hide.
+Muestra información de los desarrolladores, motor y año.
+"""
 
 import pygame
 
-# ----- SHOW ABOUT US PANEL -----
+
 def show_about_us_panel(screen):
+    """Muestra un panel con información sobre los desarrolladores."""
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, 28)
     big_font = pygame.font.SysFont(None, 36)
 
+    # Panel centrado
     panel_width = screen.get_width() * 0.7
     panel_height = screen.get_height() * 0.7
     panel_x = (screen.get_width() - panel_width) // 2
     panel_y = (screen.get_height() - panel_height) // 2
     panel_rect = pygame.Rect(panel_x, panel_y, panel_width, panel_height)
+
+    # Botón de cierre (X)
     close_rect = pygame.Rect(panel_rect.right - 40, panel_rect.top + 10, 30, 30)
 
+    # Texto del panel
     text_lines = [
         "ClickAndHide is a game developed by Group A.",
         "Classic clicker game with events.",
@@ -26,6 +36,8 @@ def show_about_us_panel(screen):
     running = True
     while running:
         clock.tick(60)
+
+        # Eventos
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -35,21 +47,29 @@ def show_about_us_panel(screen):
             if event.type == pygame.MOUSEBUTTONDOWN and close_rect.collidepoint(event.pos):
                 running = False
 
+        # Fondo semitransparente
         overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
         overlay.fill((0, 0, 0, 0))
         screen.blit(overlay, (0, 0))
 
+        # Panel principal
         pygame.draw.rect(screen, (255, 240, 180), panel_rect, border_radius=12)
         pygame.draw.rect(screen, (50, 50, 50), panel_rect, 3, border_radius=12)
 
+        # Título
         title = big_font.render("ABOUT US", True, (0, 0, 0))
         screen.blit(title, (panel_rect.centerx - title.get_width() // 2, panel_rect.y + 15))
 
+        # Botón cierre
         pygame.draw.rect(screen, (220, 80, 80), close_rect, border_radius=6)
         pygame.draw.rect(screen, (0, 0, 0), close_rect, 2, border_radius=6)
         x_txt = font.render("X", True, (255, 255, 255))
-        screen.blit(x_txt, (close_rect.centerx - x_txt.get_width() // 2, close_rect.centery - x_txt.get_height() // 2))
+        screen.blit(x_txt, (
+            close_rect.centerx - x_txt.get_width() // 2,
+            close_rect.centery - x_txt.get_height() // 2
+        ))
 
+        # Texto informativo
         y = panel_rect.y + 80
         for line in text_lines:
             txt_surf = font.render(line, True, (0, 0, 0))
