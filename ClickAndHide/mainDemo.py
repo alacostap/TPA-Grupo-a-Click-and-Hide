@@ -1,17 +1,17 @@
 """
-main.py — Entrada del juego Click & Hide.
+main.py — Entrada de la demo del juego Click & Hide.
 
 Inicializa Pygame y lanza la ejecución principal desde `game.py`.
 """
 
 import pygame
-from game import run_game
+from gameDemo import run_game_demo
 
 
 def main():
     """Inicia el juego."""
     pygame.init()
-    run_game()
+    run_game_demo()
     pygame.quit()
 
 

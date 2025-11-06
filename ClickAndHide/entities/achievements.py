@@ -2,7 +2,7 @@
 achievements.py
 
 Sistema de logros del juego Click & Hide.
-Clase Achievements para gestionar logros y notificaciones.
+Clase Achievements para gestionar logros y AchievementNotifications para las notificaciones.
 """
 
 import pygame
@@ -26,23 +26,29 @@ class Achievements:
         ]
         self.active_notifications = []
 
-    def update(self, state):
-        """Comprueba logros desbloqueados y lanza notificaciones."""
-        for ach in self.achievements:
-            if not ach["completed"] and ach["check"](state):
-                ach["completed"] = True
-                self.active_notifications.append(AchievementNotification(ach))
+    def update_achievements(self, state):
+        """
+        Comprueba cada logro.
+        Si el jugador cumple la condición y no está completado, lo desbloquea y prepara la notificación.
+        """
+        for a in self.achievements:
+            if not a["completed"] and a["check"](state):
+                a["completed"] = True
+                self.active_notifications.append(AchievementNotification(a))
 
-    def draw_notifications(self, screen, font):
-        """Dibuja notificaciones activas en pantalla."""
-        for notif in self.active_notifications[:]:
-            notif.draw(screen, font)
-            if not notif.update():
-                self.active_notifications.remove(notif)
+    def manage_notifications(self, screen, font):
+        """
+        Actualiza y muestra en pantalla todas las notificaciones de logros activas.
+        Dibuja cada notificación, comprueba si sigue vigente y elimina las que expiran.
+        """
+        for n in self.active_notifications[:]:
+            n.draw_notification(screen, font)
+            if not n.is_active_notification():  # <-- CORREGIDO
+                self.active_notifications.remove(n)
 
 
 class AchievementNotification:
-    """Notificación emergente de logro."""
+    """Notificación de cada logro."""
 
     def __init__(self, achievement):
         """Inicializa notificación con duración y animación."""
@@ -51,12 +57,20 @@ class AchievementNotification:
         self.duration = 3
         self.slide_time = 0.4
 
-    def update(self):
-        """Actualiza duración de la notificación. Devuelve False si expira."""
+    def is_active_notification(self):
+        """
+        Indica si la notificación ha expirado y debe eliminarse.
+        Devuelve True mientras la notificación siga vigente,
+        y False cuando ha alcanzado su duración máxima (se elimina).
+        """
         return time.time() - self.start_time < self.duration
 
-    def draw(self, screen, font):
-        """Dibuja notificación con animación deslizante."""
+    def draw_notification(self, screen, font):
+        """
+        Dibuja en pantalla una notificación individual de logro desbloqueado.
+        Este método es llamado por 'manage_notifications' cuando una notificación está activa.
+        Muestra el recuadro con animación deslizante y el texto del logro correspondiente.
+        """
         notif_width, notif_height = 300, 80
         elapsed = time.time() - self.start_time
 

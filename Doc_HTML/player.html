@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module player</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">player</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Calvaro%5Conedrive%20-%20universidad%20nebrija%5Cdocumentos%5Cproyectos%5Ctpa-grupo-a-click-and-hide%5Cclickandhide%5Centities%5Cplayer.py">c:\users\alvaro\onedrive - universidad nebrija\documentos\proyectos\tpa-grupo-a-click-and-hide\clickandhide\entities\player.py</a></td></tr></table>
+    <p><span class="code">entities/player.py<br>
+&nbsp;<br>
+Define&nbsp;la&nbsp;clase&nbsp;<a href="#Player">Player</a>&nbsp;del&nbsp;juego&nbsp;Click&nbsp;&amp;&nbsp;Hide.<br>
+Gestiona&nbsp;dinero,&nbsp;ingresos&nbsp;por&nbsp;click&nbsp;y&nbsp;automáticos,&nbsp;cooldowns&nbsp;y&nbsp;dibujo&nbsp;del&nbsp;botón.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"><a href="time.html">time</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="player.html#Player">Player</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Player">class <strong>Player</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Representa&nbsp;al&nbsp;jugador&nbsp;y&nbsp;su&nbsp;progreso.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Player-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Inicializa&nbsp;al&nbsp;jugador&nbsp;con&nbsp;valores&nbsp;por&nbsp;defecto.</span></dd></dl>
+
+<dl><dt><a name="Player-apply_auto_income"><strong>apply_auto_income</strong></a>(self, now=None)</dt><dd><span class="code">Aplica&nbsp;el&nbsp;ingreso&nbsp;automático&nbsp;si&nbsp;pasó&nbsp;1&nbsp;segundo&nbsp;desde&nbsp;la&nbsp;última&nbsp;vez.</span></dd></dl>
+
+<dl><dt><a name="Player-can_afford"><strong>can_afford</strong></a>(self, amount)</dt><dd><span class="code">Comprueba&nbsp;si&nbsp;el&nbsp;jugador&nbsp;tiene&nbsp;suficiente&nbsp;dinero.</span></dd></dl>
+
+<dl><dt><a name="Player-click"><strong>click</strong></a>(self)</dt><dd><span class="code">Agrega&nbsp;dinero&nbsp;por&nbsp;click&nbsp;si&nbsp;pasó&nbsp;el&nbsp;cooldown.</span></dd></dl>
+
+<dl><dt><a name="Player-draw_click_button"><strong>draw_click_button</strong></a>(self, screen, font, mouse_pos, WIDTH, HEIGHT)</dt><dd><span class="code">Dibuja&nbsp;el&nbsp;botón&nbsp;central&nbsp;de&nbsp;click,&nbsp;cambia&nbsp;color&nbsp;al&nbsp;pasar&nbsp;el&nbsp;cursor.</span></dd></dl>
+
+<dl><dt><a name="Player-reset"><strong>reset</strong></a>(self, money=0)</dt><dd><span class="code">Reinicia&nbsp;el&nbsp;jugador&nbsp;con&nbsp;valores&nbsp;iniciales.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>EARN_COOLDOWN</strong> = 0.2<br>
+<strong>MONEY_START</strong> = 0</td></tr></table>
+</body></html>

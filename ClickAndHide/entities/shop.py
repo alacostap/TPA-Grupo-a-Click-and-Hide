@@ -1,8 +1,8 @@
 """
 entities/shop.py
 
-Clase Shop para el juego Click & Hide.
-Gestiona la tienda, los ítems, compras, scroll y el deslizador lateral.
+Clase Shop para Click & Hide.
+Gestiona la tienda, los ítems, compras, scroll y deslizador lateral.
 """
 
 import pygame
@@ -13,7 +13,7 @@ class Shop:
     """Representa la tienda y sus ítems disponibles."""
 
     def __init__(self):
-        """Inicializa la tienda con los ítems base y prepara el scroll."""
+        """Inicializa la tienda con ítems base y prepara scroll y slider."""
         self.shop_data = [
             ("Ratón", 15, 1, "click", (230, 200, 150)),
             ("Apuntes (+1/s)", 50, 1, "auto", (245, 222, 100)),
@@ -29,7 +29,6 @@ class Shop:
         self.items = []
         self.init_items()
 
-        # Scroll y slider
         self.scroll_offset = 0
         self.scroll_speed = 20
         self.max_scroll = 0
@@ -57,7 +56,7 @@ class Shop:
     # Lógica principal
     # -------------------------------------------------------------------------
     def handle_click(self, mouse_pos, player, achievements_manager=None):
-        """Gestiona la compra de ítems si se hace click sobre ellos."""
+        """Gestiona la compra de ítems al hacer click sobre ellos."""
         for item in self.items:
             if item["rect"] and item["rect"].collidepoint(mouse_pos):
                 if player.money >= item["cost"]:
@@ -65,25 +64,22 @@ class Shop:
                     item["amount"] += 1
                     item["cost"] = int(item["cost"] * 1.15)
 
-                    # Aumentar ingresos
                     if item["tipo"] == "click":
                         player.click_income += item["base_income"]
                     else:
                         player.auto_income += item["base_income"]
 
-                    # Registrar mejora comprada
                     if not hasattr(player, "upgrades_bought"):
                         player.upgrades_bought = 0
                     player.upgrades_bought += 1
 
-                    # Actualizar logros (si se pasa el manager)
                     if achievements_manager:
                         game_state = {
                             "money": player.money,
                             "total_clicks": player.total_clicks,
                             "upgrades_bought": player.upgrades_bought
                         }
-                        achievements_manager.update(game_state)
+                        achievements_manager.update_achievements(game_state)
 
     # -------------------------------------------------------------------------
     # Scroll y slider
@@ -155,7 +151,6 @@ class Shop:
             item["rect"] = rect
             y_offset += item_height + spacing
 
-        # Slider
         self.slider_rect = None
         if total_height > panel_h - 60:
             slider_height = max(40, (panel_h - 60) * (panel_h - 60) / total_height)

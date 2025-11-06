@@ -8,5 +8,6 @@ Repositorio de GitHub para el proyecto de Técnicas de Programación Avanzada.
 - Jaime Sanfeliciano
 - David Lopez
 
-# Demo
-- La demo se encuentra en la carpeta "ClickAndHideDemo".
+# Juego/Demo
+- El juego principal se ejecuta en main.
+- La demo se ejecuta en mainDemo.

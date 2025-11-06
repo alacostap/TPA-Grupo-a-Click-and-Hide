@@ -1,6 +1,8 @@
 """
 game.py — Lógica principal del juego Click & Hide.
-Contiene el bucle del juego, la gestión de menús y los eventos.
+
+Contiene el bucle principal, manejo de menús, eventos y dibujo de pantalla.
+Incluye la gestión de dinero pasivo, clics, tienda y logros.
 """
 
 import pygame
@@ -18,7 +20,7 @@ from menu.achievements_menu import show_achievements_panel
 
 
 def run_game():
-    """Ejecuta el bucle principal del juego."""
+    """Ejecuta el bucle principal del juego con menú, eventos, tienda y logros."""
     # ----- CONFIGURACIÓN PANTALLA -----
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("CLICK AND HIDE")
@@ -90,13 +92,16 @@ def run_game():
             player.apply_auto_income()
 
             # ----- ACTUALIZACIÓN DE LOGROS -----
-            # Esto asegura que los logros se actualizan incluso si no se compra nada
             game_state = {
                 "money": player.money,
                 "total_clicks": player.total_clicks,
                 "upgrades_bought": sum(item["amount"] for item in shop.items)
             }
-            achievements_manager.update(game_state)
-            achievements_manager.draw_notifications(screen, font_small)
+
+            # Actualiza logros y prepara notificaciones
+            achievements_manager.update_achievements(game_state)
+
+            # Dibuja todas las notificaciones activas
+            achievements_manager.manage_notifications(screen, font_small)
 
         pygame.display.flip()

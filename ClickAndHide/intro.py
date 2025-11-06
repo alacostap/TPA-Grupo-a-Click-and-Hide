@@ -3,10 +3,9 @@ intro.py — Animación de introducción de Click & Hide.
 
 Muestra:
   - Fondo personalizado
-  - Texto animado "CLICK AND HIDE"
+  - Texto animado
   - Logotipo girando
-  - Texto de carga con puntos
-
+  - Texto de carga animado
 Se puede saltar con cualquier tecla o clic.
 """
 
@@ -17,18 +16,18 @@ import math
 
 def play_intro(screen, background_image_name="inicio.png"):
     """
-    Reproduce la intro del juego.
+    Reproduce la animación de introducción.
 
     Args:
-        screen (pygame.Surface): Ventana principal.
-        background_image_name (str): Archivo de fondo (default: "inicio.png").
+        screen (pygame.Surface): Ventana principal del juego.
+        background_image_name (str): Nombre de la imagen de fondo (default "inicio.png").
 
     Comportamiento:
-        - Texto principal animado
-        - Logo girando
-        - Texto de carga animado
-        - Salto con clic o tecla
-        - Termina automáticamente tras unos segundos
+        - Texto principal animado y pulsante
+        - Logo girando en la parte inferior
+        - Texto de carga con puntos animados
+        - Se puede saltar con clic o tecla
+        - Finaliza automáticamente tras unos segundos
     """
     clock = pygame.time.Clock()
     width, height = screen.get_size()

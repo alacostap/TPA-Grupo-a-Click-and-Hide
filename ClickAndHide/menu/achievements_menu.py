@@ -4,11 +4,16 @@ import pygame
 
 def show_achievements_panel(screen, achievements, state):
     """
-    Muestra el panel completo de logros.
-    achievements: instancia de Achievements
-    state: diccionario con estado del jugador
+    Muestra el panel de logros del jugador.
+
+    Args:
+        screen (pygame.Surface): Ventana donde se dibuja el panel.
+        achievements (Achievements): Instancia del gestor de logros.
+        state (dict): Estado actual del jugador para actualizar logros.
     """
-    achievements.update(state)  # Actualiza logros antes de mostrar
+    # Actualiza logros antes de mostrar
+    achievements.update_achievements(state)
+    
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, 24)
     big_font = pygame.font.SysFont(None, 32)
@@ -59,6 +64,7 @@ def show_achievements_panel(screen, achievements, state):
             pygame.draw.rect(screen, color, rect, border_radius=6)
             pygame.draw.rect(screen, (0, 0, 0), rect, 2, border_radius=6)
 
+            # Tooltip
             if rect.collidepoint(mouse_pos):
                 info_surf = font.render(ach["desc"], True, (0, 0, 0))
                 info_bg = pygame.Surface((info_surf.get_width() + 20, info_surf.get_height() + 10))
