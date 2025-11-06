@@ -1,7 +1,5 @@
 """
-config.py
-
-Archivo de configuración global para el juego Click & Hide.
+config.py — Archivo de configuración global para el juego Click & Hide.
 Contiene constantes relacionadas con:
   - Pantalla
   - Jugador
@@ -45,10 +43,10 @@ FONT_BIG = 28
 # --- INTRO / PANTALLA DE PRESENTACIÓN ---
 INTRO_IMAGE = "clase.png"           # Fondo de la intro
 LOGO_SIZE = (100, 100)              # Tamaño del logo
-INTRO_MOVE_DURATION = 3.0            # Tiempo del movimiento del texto
-INTRO_LOAD_DURATION = 5.0            # Tiempo de carga
-INTRO_FONT_SIZE = 64                 # Tamaño del texto principal
-INTRO_TEXT = "CLICK AND HIDE"        # Texto principal de la intro
+INTRO_MOVE_DURATION = 3.0           # Tiempo del movimiento del texto
+INTRO_LOAD_DURATION = 5.0           # Tiempo de carga
+INTRO_FONT_SIZE = 64                # Tamaño del texto principal
+INTRO_TEXT = "CLICK AND HIDE"       # Texto principal de la intro
 INTRO_TEXT_COLOR = (255, 255, 255)  # Color del texto principal
 
 # --- RUTAS Y ARCHIVOS ---

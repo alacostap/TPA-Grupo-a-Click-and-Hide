@@ -1,6 +1,6 @@
-"""
-menu/main_menu.py
+# menu/main_menu.py
 
+"""
 Menú principal de Click & Hide.
 Muestra opciones como JUGAR, OPCIONES, ABOUT US, LOGROS y SALIR,
 y permite navegar a submenús o iniciar/continuar la partida.
@@ -8,7 +8,8 @@ y permite navegar a submenús o iniciar/continuar la partida.
 
 import pygame
 import os
-from menu.achievements_menu import AchievementsMenu
+from entities.achievements import Achievements
+from menu.achievements_menu import show_achievements_panel
 from menu.aboutus_menu import show_about_us_panel
 from menu.options_menu import show_options_panel
 from menu.exit_menu import show_exit_panel
@@ -24,7 +25,7 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
         big_font (pygame.font.Font): Fuente para el título.
         game_started (bool): Indica si la partida ya comenzó.
         player (object): Instancia del jugador.
-        achievements_manager (AchievementsMenu): Gestor de logros.
+        achievements_manager (Achievements): Gestor de logros.
 
     Returns:
         str | None: Opción seleccionada por el jugador, p.ej. "JUGAR" o "CONTINUAR".
@@ -118,7 +119,7 @@ def show_main_menu(screen, font, big_font, game_started, player, achievements_ma
             "total_clicks": player.total_clicks,
             "upgrades_bought": getattr(player, "upgrades_bought", 0)
         }
-        achievements_manager.show_panel(screen, game_state)
+        show_achievements_panel(screen, achievements_manager, game_state)
         return show_main_menu(screen, font, big_font, game_started, player, achievements_manager)
 
     elif choice == "OPCIONES":

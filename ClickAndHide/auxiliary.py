@@ -1,5 +1,5 @@
 """
-utilidades.py — Funciones auxiliares para Click & Hide.
+auxiliary.py — Funciones auxiliares para Click & Hide.
 
 Incluye:
   - Lógica simple (dinero, tiempos de clic)

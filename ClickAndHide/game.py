@@ -7,13 +7,14 @@ import pygame
 import time
 import os
 
-from config import *
-from utilities import draw_gradient_background, draw_header
+from config import WIDTH, HEIGHT, FPS, MONEY_START
+from auxiliary import draw_gradient_background, draw_header
 from entities.player import Player
 from entities.shop import Shop
+from entities.achievements import Achievements
 from intro import play_intro
 from menu.main_menu import show_main_menu
-from menu.achievements_menu import AchievementsMenu
+from menu.achievements_menu import show_achievements_panel
 
 
 def run_game():
@@ -32,7 +33,7 @@ def run_game():
     # ----- ESTADO DEL JUEGO -----
     player = Player()
     shop = Shop()
-    achievements_manager = AchievementsMenu()
+    achievements_manager = Achievements()
     running = True
     state = "menu"
     game_started = False
@@ -44,7 +45,6 @@ def run_game():
     # ----- LOOP PRINCIPAL -----
     while running:
         dt = clock.tick(FPS) / 1000.0
-        now = time.time()
         mouse_pos = pygame.mouse.get_pos()
 
         # ----- MENÚ PRINCIPAL -----
@@ -57,7 +57,7 @@ def run_game():
                 state = "playing"
                 if not game_started:
                     player.reset(MONEY_START)
-                    shop.reset_items()
+                    shop.init_items()
                     game_started = True
             continue
 
@@ -74,21 +74,27 @@ def run_game():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if player.click_rect.collidepoint(mouse_pos):
                         player.click()
-                    shop.handle_click(mouse_pos, player)
+                    # Aquí llamamos a handle_click con achievements_manager
+                    shop.handle_click(mouse_pos, player, achievements_manager)
                 shop.handle_scroll(event)
                 shop.handle_mouse_events(event, mouse_pos, header_height, HEIGHT - header_height)
 
-        # ----- DIBUJO -----
+        # ----- DIBUJO Y ACTUALIZACIONES -----
         if state == "playing":
             draw_gradient_background(screen, WIDTH, HEIGHT)
             draw_header(screen, font_medium, font_small, player)
             player.draw_click_button(screen, font_medium, mouse_pos, WIDTH, HEIGHT)
             shop.draw(screen, font_small, font_big, player, mouse_pos, WIDTH, HEIGHT)
 
+            # ----- DINERO PASIVO -----
+            player.apply_auto_income()
+
+            # ----- ACTUALIZACIÓN DE LOGROS -----
+            # Esto asegura que los logros se actualizan incluso si no se compra nada
             game_state = {
                 "money": player.money,
                 "total_clicks": player.total_clicks,
-                "upgrades_bought": getattr(player, "upgrades_bought", 0)
+                "upgrades_bought": sum(item["amount"] for item in shop.items)
             }
             achievements_manager.update(game_state)
             achievements_manager.draw_notifications(screen, font_small)

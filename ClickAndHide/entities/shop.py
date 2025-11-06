@@ -1,13 +1,12 @@
 """
 entities/shop.py
 
-Define la clase Shop, que gestiona la tienda del juego Click & Hide.
-Se encarga de mostrar ítems, manejar compras, scroll y deslizador lateral.
+Clase Shop para el juego Click & Hide.
+Gestiona la tienda, los ítems, compras, scroll y el deslizador lateral.
 """
 
 import pygame
-from entities.shopitem import ShopItem
-from utilities import draw_shop_panel
+from auxiliary import draw_shop_panel
 
 
 class Shop:
@@ -26,32 +25,69 @@ class Shop:
             ("Fibra Óptica (+200/s)", 7500, 200, "auto", (240, 200, 150)),
             ("Servidor (+500/s)", 10000, 500, "auto", (230, 210, 160)),
         ]
+
         self.items = []
+        self.init_items()
+
+        # Scroll y slider
         self.scroll_offset = 0
         self.scroll_speed = 20
         self.max_scroll = 0
         self.dragging_slider = False
         self.slider_rect = None
-        self.reset_items()
 
-    def reset_items(self):
-        """Crea o reinicia todos los ShopItem según shop_data."""
+    # -------------------------------------------------------------------------
+    # Inicialización
+    # -------------------------------------------------------------------------
+    def init_items(self):
+        """Crea o reinicia todos los ítems según shop_data."""
         self.items = []
-        for name, cost, inc, tipo, color in self.shop_data:
-            item = ShopItem(name, cost, inc, tipo)
-            item.color = color
-            self.items.append(item)
+        for name, cost, income, tipo, color in self.shop_data:
+            self.items.append({
+                "name": name,
+                "cost": cost,
+                "base_income": income,
+                "tipo": tipo,
+                "amount": 0,
+                "color": color,
+                "rect": None
+            })
 
-    def handle_click(self, mouse_pos, player):
+    # -------------------------------------------------------------------------
+    # Lógica principal
+    # -------------------------------------------------------------------------
+    def handle_click(self, mouse_pos, player, achievements_manager=None):
         """Gestiona la compra de ítems si se hace click sobre ellos."""
         for item in self.items:
-            if hasattr(item, 'rect') and item.rect.collidepoint(mouse_pos):
-                if item.buy(player):
-                    if item.tipo == "click":
-                        player.click_income += item.base_income
-                    else:
-                        player.auto_income += item.base_income
+            if item["rect"] and item["rect"].collidepoint(mouse_pos):
+                if player.money >= item["cost"]:
+                    player.money -= item["cost"]
+                    item["amount"] += 1
+                    item["cost"] = int(item["cost"] * 1.15)
 
+                    # Aumentar ingresos
+                    if item["tipo"] == "click":
+                        player.click_income += item["base_income"]
+                    else:
+                        player.auto_income += item["base_income"]
+
+                    # Registrar mejora comprada
+                    if not hasattr(player, "upgrades_bought"):
+                        player.upgrades_bought = 0
+                    player.upgrades_bought += 1
+
+                    # Actualizar logros (si se pasa el manager)
+                    if achievements_manager:
+                        game_state = {
+                            "money": player.money,
+                            "total_clicks": player.total_clicks,
+                            "upgrades_bought": player.upgrades_bought
+                        }
+                        achievements_manager.update(game_state)
+
+    # -------------------------------------------------------------------------
+    # Scroll y slider
+    # -------------------------------------------------------------------------
     def handle_scroll(self, event):
         """Maneja el scroll vertical con la rueda del ratón."""
         if event.type == pygame.MOUSEWHEEL:
@@ -76,6 +112,9 @@ class Shop:
             self.scroll_offset = self.scroll_start_offset + (delta_y / slider_range) * scroll_range
             self.scroll_offset = max(0, min(self.scroll_offset, self.max_scroll))
 
+    # -------------------------------------------------------------------------
+    # Dibujo
+    # -------------------------------------------------------------------------
     def draw(self, screen, font_small, font_big, player, mouse_pos, WIDTH, HEIGHT):
         """Dibuja la tienda completa con panel, ítems y deslizador lateral."""
         header_height = 60
@@ -98,9 +137,9 @@ class Shop:
 
         y_offset = header_height + 60 - self.scroll_offset
         for item in self.items:
-            can_afford = player.can_afford(item.cost)
+            can_afford = player.can_afford(item["cost"])
             rect = pygame.Rect(panel_x + 30, y_offset, panel_width - 60, item_height)
-            color = item.color
+            color = item["color"]
             if not can_afford:
                 color = tuple(max(130, c - 70) for c in color)
             elif rect.collidepoint(mouse_pos):
@@ -109,13 +148,14 @@ class Shop:
             if rect.bottom >= panel_y and rect.y <= panel_y + panel_h:
                 pygame.draw.rect(screen, color, rect, border_radius=10)
                 pygame.draw.rect(screen, (90, 70, 40), rect, 2, border_radius=10)
-                screen.blit(font_small.render(item.name, True, (50, 35, 20)), (rect.x + 10, rect.y + 6))
-                screen.blit(font_small.render(f"${item.cost}", True, (60, 45, 30)), (rect.x + 10, rect.y + 30))
-                screen.blit(font_small.render(f"x{item.amount}", True, (50, 35, 20)), (rect.right - 50, rect.y + 18))
+                screen.blit(font_small.render(item["name"], True, (50, 35, 20)), (rect.x + 10, rect.y + 6))
+                screen.blit(font_small.render(f"${item['cost']}", True, (60, 45, 30)), (rect.x + 10, rect.y + 30))
+                screen.blit(font_small.render(f"x{item['amount']}", True, (50, 35, 20)), (rect.right - 50, rect.y + 18))
 
-            item.rect = rect
+            item["rect"] = rect
             y_offset += item_height + spacing
 
+        # Slider
         self.slider_rect = None
         if total_height > panel_h - 60:
             slider_height = max(40, (panel_h - 60) * (panel_h - 60) / total_height)

@@ -8,7 +8,7 @@ Gestiona dinero, ingresos por click y automáticos, cooldowns y dibujo del botó
 import time
 import pygame
 from config import MONEY_START, EARN_COOLDOWN
-from utilities import clamp_money, can_earn
+from auxiliary import clamp_money, can_earn
 
 
 class Player:
