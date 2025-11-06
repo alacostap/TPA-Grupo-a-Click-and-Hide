@@ -6,9 +6,6 @@ from config import *
 from utilities import clamp_money, draw_gradient_background, draw_header
 from entities.player import Player
 from entities.shop import Shop
-from intro import play_intro
-from menu.main_menu import show_main_menu
-from menu.achievements_menu import AchievementsMenu
 
 pygame.init()
 
@@ -26,34 +23,26 @@ font_big = pygame.font.Font(base_font_path, 28)
 # ----- ESTADO DEL JUEGO -----
 player = Player()
 shop = Shop()
-achievements_manager = AchievementsMenu()
 running = True
-state = "menu"
-game_started = False
-header_height = 60  # altura del encabezado
+state = "playing"        # Arranca directamente en modo juego
+game_started = True
+header_height = 60
+
+# ----- AUTO MODO -----
+auto_mode = True         # Si está True, el juego se juega solo
+auto_click_timer = 0
+auto_buy_timer = 0
 
 # ----- INTRO -----
-play_intro(screen, "clase.png")
+# Sin intro en este modo automático
+# Inicializa el jugador y la tienda
+player.reset(MONEY_START)
+shop.reset_items()
 
 # ----- LOOP PRINCIPAL -----
 while running:
     dt = clock.tick(FPS) / 1000.0
-    now = time.time()
     mouse_pos = pygame.mouse.get_pos()
-
-    # ----- MENU PRINCIPAL -----
-    if state == "menu":
-        choice = show_main_menu(screen, font_small, font_big, game_started, player, achievements_manager)
-        if choice in ["EXIT", "SALIR"]:
-            running = False
-            continue
-        elif choice in ["PLAY", "CONTINUE", "JUGAR", "CONTINUAR"]:
-            state = "playing"
-            if not game_started:
-                player.reset(MONEY_START)
-                shop.reset_items()
-                game_started = True
-        continue
 
     # ----- EVENTOS -----
     for event in pygame.event.get():
@@ -62,12 +51,12 @@ while running:
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                state = "menu"
+                running = False  # sale completamente
             elif event.key == pygame.K_F11:
                 pygame.display.toggle_fullscreen()
 
-        elif state == "playing":
-            # Click izquierdo
+        elif not auto_mode:
+            # Click manual
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if player.click_rect.collidepoint(mouse_pos):
                     player.click()
@@ -79,8 +68,28 @@ while running:
             # Arrastre del slider
             shop.handle_mouse_events(event, mouse_pos, header_height, HEIGHT - header_height)
 
-    # ----- DIBUJOS -----
+    # ----- LÓGICA PRINCIPAL -----
     if state == "playing":
+        # ---------- AUTO JUEGO ----------
+        if auto_mode:
+            # Auto clic cada 0.2 segundos
+            auto_click_timer += dt
+            if auto_click_timer >= 0.2:
+                player.click()
+                auto_click_timer = 0
+
+            # Auto compra cada 1.5 segundos
+            auto_buy_timer += dt
+            if auto_buy_timer >= 1.5:
+                affordable_items = [item for item in shop.items if item.cost <= player.money]
+                if affordable_items:
+                    cheapest = min(affordable_items, key=lambda i: i.cost)
+                    if hasattr(cheapest, "rect"):
+                        fake_pos = cheapest.rect.center
+                        shop.handle_click(fake_pos, player)
+                auto_buy_timer = 0
+
+        # ---------- DIBUJADO ----------
         draw_gradient_background(screen, WIDTH, HEIGHT)
         draw_header(screen, font_medium, font_small, player)
         player.draw_click_button(screen, font_medium, mouse_pos, WIDTH, HEIGHT)
@@ -92,8 +101,6 @@ while running:
             "total_clicks": player.total_clicks,
             "upgrades_bought": getattr(player, "upgrades_bought", 0)
         }
-        achievements_manager.update(game_state)
-        achievements_manager.draw_notifications(screen, font_small)
 
     pygame.display.flip()
 

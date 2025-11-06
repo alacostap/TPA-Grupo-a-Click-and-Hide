@@ -9,4 +9,4 @@ Repositorio de GitHub para el proyecto de Técnicas de Programación Avanzada.
 - David Lopez
 
 # Demo
-- La demo se encuentra aparte
+- La demo se encuentra en la carpeta "ClickAndHideDemo".
