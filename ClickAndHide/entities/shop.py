@@ -1,13 +1,35 @@
 """
 entities/shop.py
 
-Clase Shop para Click & Hide.
+Clases relacionadas con la tienda para Click & Hide.
 Gestiona la tienda, los ítems, compras, scroll y deslizador lateral.
 """
 
 import pygame
 from auxiliary import draw_shop_panel
 
+class ShopItem:
+    """Clase base para los ítems de la tienda."""
+
+    def __init__(self, name, cost, income, tipo, color):
+        self.name = name
+        self.cost = cost
+        self.base_income = income
+        self.tipo = tipo
+        self.amount = 0
+        self.color = color
+        self.rect = None
+
+class ShopItemFactory:
+    """Clase para crear ítems de la tienda."""
+
+    @staticmethod
+    def create_item(name, cost, income, tipo, color):
+        """
+        Método que decide qué tipo de ítem crear.
+        En nurstro caso , todos son ShopItem,
+        """
+        return ShopItem(name, cost, income, tipo, color)
 
 class Shop:
     """Representa la tienda y sus ítems disponibles."""
@@ -35,39 +57,28 @@ class Shop:
         self.dragging_slider = False
         self.slider_rect = None
 
-    # -------------------------------------------------------------------------
-    # Inicialización
-    # -------------------------------------------------------------------------
+    # ----- Inicialización -----
     def init_items(self):
-        """Crea o reinicia todos los ítems según shop_data."""
+        """Crea o reinicia todos los ítems usando la fábrica (Factory Method)."""
         self.items = []
         for name, cost, income, tipo, color in self.shop_data:
-            self.items.append({
-                "name": name,
-                "cost": cost,
-                "base_income": income,
-                "tipo": tipo,
-                "amount": 0,
-                "color": color,
-                "rect": None
-            })
+            item = ShopItemFactory.create_item(name, cost, income, tipo, color)
+            self.items.append(item)
 
-    # -------------------------------------------------------------------------
-    # Lógica principal
-    # -------------------------------------------------------------------------
+    # ----- Lógica principal -----
     def handle_click(self, mouse_pos, player, achievements_manager=None):
         """Gestiona la compra de ítems al hacer click sobre ellos."""
         for item in self.items:
-            if item["rect"] and item["rect"].collidepoint(mouse_pos):
-                if player.money >= item["cost"]:
-                    player.money -= item["cost"]
-                    item["amount"] += 1
-                    item["cost"] = int(item["cost"] * 1.15)
+            if item.rect and item.rect.collidepoint(mouse_pos):
+                if player.money >= item.cost:
+                    player.money -= item.cost
+                    item.amount += 1
+                    item.cost = int(item.cost * 1.15)
 
-                    if item["tipo"] == "click":
-                        player.click_income += item["base_income"]
+                    if item.tipo == "click":
+                        player.click_income += item.base_income
                     else:
-                        player.auto_income += item["base_income"]
+                        player.auto_income += item.base_income
 
                     if not hasattr(player, "upgrades_bought"):
                         player.upgrades_bought = 0
@@ -81,9 +92,7 @@ class Shop:
                         }
                         achievements_manager.update_achievements(game_state)
 
-    # -------------------------------------------------------------------------
-    # Scroll y slider
-    # -------------------------------------------------------------------------
+    # ----- Scroll y slider -----
     def handle_scroll(self, event):
         """Maneja el scroll vertical con la rueda del ratón."""
         if event.type == pygame.MOUSEWHEEL:
@@ -108,9 +117,7 @@ class Shop:
             self.scroll_offset = self.scroll_start_offset + (delta_y / slider_range) * scroll_range
             self.scroll_offset = max(0, min(self.scroll_offset, self.max_scroll))
 
-    # -------------------------------------------------------------------------
-    # Dibujo
-    # -------------------------------------------------------------------------
+    # ----- Dibujo -----
     def draw(self, screen, font_small, font_big, player, mouse_pos, WIDTH, HEIGHT):
         """Dibuja la tienda completa con panel, ítems y deslizador lateral."""
         header_height = 60
@@ -133,9 +140,9 @@ class Shop:
 
         y_offset = header_height + 60 - self.scroll_offset
         for item in self.items:
-            can_afford = player.can_afford(item["cost"])
+            can_afford = player.can_afford(item.cost)
             rect = pygame.Rect(panel_x + 30, y_offset, panel_width - 60, item_height)
-            color = item["color"]
+            color = item.color
             if not can_afford:
                 color = tuple(max(130, c - 70) for c in color)
             elif rect.collidepoint(mouse_pos):
@@ -144,11 +151,11 @@ class Shop:
             if rect.bottom >= panel_y and rect.y <= panel_y + panel_h:
                 pygame.draw.rect(screen, color, rect, border_radius=10)
                 pygame.draw.rect(screen, (90, 70, 40), rect, 2, border_radius=10)
-                screen.blit(font_small.render(item["name"], True, (50, 35, 20)), (rect.x + 10, rect.y + 6))
-                screen.blit(font_small.render(f"${item['cost']}", True, (60, 45, 30)), (rect.x + 10, rect.y + 30))
-                screen.blit(font_small.render(f"x{item['amount']}", True, (50, 35, 20)), (rect.right - 50, rect.y + 18))
+                screen.blit(font_small.render(item.name, True, (50, 35, 20)), (rect.x + 10, rect.y + 6))
+                screen.blit(font_small.render(f"${item.cost}", True, (60, 45, 30)), (rect.x + 10, rect.y + 30))
+                screen.blit(font_small.render(f"x{item.amount}", True, (50, 35, 20)), (rect.right - 50, rect.y + 18))
 
-            item["rect"] = rect
+            item.rect = rect
             y_offset += item_height + spacing
 
         self.slider_rect = None

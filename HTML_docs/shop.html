@@ -31,6 +31,8 @@ Gestiona&nbsp;la&nbsp;tienda,&nbsp;los&nbsp;ítems,&nbsp;compras,&nbsp;scroll&nb
 </dt><dd>
 <dl>
 <dt class="heading-text"><a href="shop.html#Shop">Shop</a>
+</dt><dt class="heading-text"><a href="shop.html#ShopItem">ShopItem</a>
+</dt><dt class="heading-text"><a href="shop.html#ShopItemFactory">ShopItemFactory</a>
 </dt></dl>
 </dd>
 </dl>
@@ -53,7 +55,48 @@ Gestiona&nbsp;la&nbsp;tienda,&nbsp;los&nbsp;ítems,&nbsp;compras,&nbsp;scroll&nb
 
 <dl><dt><a name="Shop-handle_scroll"><strong>handle_scroll</strong></a>(self, event)</dt><dd><span class="code">Maneja&nbsp;el&nbsp;scroll&nbsp;vertical&nbsp;con&nbsp;la&nbsp;rueda&nbsp;del&nbsp;ratón.</span></dd></dl>
 
-<dl><dt><a name="Shop-init_items"><strong>init_items</strong></a>(self)</dt><dd><span class="code">Crea&nbsp;o&nbsp;reinicia&nbsp;todos&nbsp;los&nbsp;ítems&nbsp;según&nbsp;shop_data.</span></dd></dl>
+<dl><dt><a name="Shop-init_items"><strong>init_items</strong></a>(self)</dt><dd><span class="code">Crea&nbsp;o&nbsp;reinicia&nbsp;todos&nbsp;los&nbsp;ítems&nbsp;usando&nbsp;la&nbsp;fábrica&nbsp;(Factory&nbsp;Method).</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="ShopItem">class <strong>ShopItem</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#ShopItem">ShopItem</a>(name,&nbsp;cost,&nbsp;income,&nbsp;tipo,&nbsp;color)<br>
+&nbsp;<br>
+Clase&nbsp;base&nbsp;para&nbsp;los&nbsp;ítems&nbsp;de&nbsp;la&nbsp;tienda.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="ShopItem-__init__"><strong>__init__</strong></a>(self, name, cost, income, tipo, color)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="ShopItemFactory">class <strong>ShopItemFactory</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Clase&nbsp;para&nbsp;crear&nbsp;ítems&nbsp;de&nbsp;la&nbsp;tienda.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Static methods defined here:<br>
+<dl><dt><a name="ShopItemFactory-create_item"><strong>create_item</strong></a>(name, cost, income, tipo, color)</dt><dd><span class="code">Método&nbsp;que&nbsp;decide&nbsp;qué&nbsp;tipo&nbsp;de&nbsp;ítem&nbsp;crear.<br>
+En&nbsp;nurstro&nbsp;caso&nbsp;,&nbsp;todos&nbsp;son&nbsp;<a href="#ShopItem">ShopItem</a>,</span></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>

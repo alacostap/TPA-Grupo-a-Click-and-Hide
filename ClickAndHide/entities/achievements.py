@@ -1,5 +1,5 @@
 """
-achievements.py
+entities/achievements.py
 
 Sistema de logros del juego Click & Hide.
 Clase Achievements para gestionar logros y AchievementNotifications para las notificaciones.

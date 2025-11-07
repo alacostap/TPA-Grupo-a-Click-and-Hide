@@ -57,7 +57,7 @@ def run_game_demo():
 
         # ----- IA COMPRA AUTOMÁTICA -----
         for item in shop.items:
-            while player.money >= item["cost"]:
+            while player.money >= item.cost:
                 # Compramos directamente sin depender de rects
                 player.money -= item["cost"]
                 item["amount"] += 1
@@ -93,7 +93,7 @@ def run_game_demo():
         game_state = {
             "money": player.money,
             "total_clicks": player.total_clicks,
-            "upgrades_bought": sum(item["amount"] for item in shop.items)
+            "upgrades_bought": sum(item.amount for item in shop.items)
         }
         achievements_manager.update_achievements(game_state)
         achievements_manager.manage_notifications(screen, font_small)

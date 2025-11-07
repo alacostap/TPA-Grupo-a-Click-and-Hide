@@ -1,12 +1,11 @@
 """
 game.py — Lógica principal del juego Click & Hide.
 
-Contiene el bucle principal, manejo de menús, eventos y dibujo de pantalla.
-Incluye la gestión de dinero pasivo, clics, tienda y logros.
+Contiene el bucle principal del juego con menú, eventos, tienda, logros
+y guardado automático.
 """
 
 import pygame
-import time
 import os
 
 from config import WIDTH, HEIGHT, FPS, MONEY_START
@@ -16,11 +15,12 @@ from entities.shop import Shop
 from entities.achievements import Achievements
 from intro import play_intro
 from menu.main_menu import show_main_menu
-from menu.achievements_menu import show_achievements_panel
+from save import save_game, load_game
 
 
 def run_game():
     """Ejecuta el bucle principal del juego con menú, eventos, tienda y logros."""
+
     # ----- CONFIGURACIÓN PANTALLA -----
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("CLICK AND HIDE")
@@ -36,10 +36,12 @@ def run_game():
     player = Player()
     shop = Shop()
     achievements_manager = Achievements()
+    load_game(player, shop)  # <-- Carga automática al iniciar
+
     running = True
     state = "menu"
-    game_started = False
     header_height = 60
+    game_started = True if player.total_clicks > 0 or player.money != MONEY_START else False
 
     # ----- INTRO -----
     play_intro(screen, "clase.png")
@@ -55,13 +57,22 @@ def run_game():
             if choice in ["EXIT", "SALIR"]:
                 running = False
                 continue
-            elif choice in ["PLAY", "CONTINUE", "JUGAR", "CONTINUAR"]:
+            elif choice in ["PLAY", "JUGAR"]:
                 state = "playing"
                 if not game_started:
                     player.reset(MONEY_START)
                     shop.init_items()
                     game_started = True
-            continue
+                continue
+            elif choice in ["CONTINUE", "CONTINUAR"]:
+                state = "playing"
+                continue
+            elif choice in ["ACHIEVEMENTS", "LOGROS"]:
+                # Aquí podrías llamar al panel de logros
+                continue
+            elif choice in ["CREDITS", "CRÉDITOS"]:
+                # Aquí podrías mostrar créditos
+                continue
 
         # ----- EVENTOS -----
         for event in pygame.event.get():
@@ -76,8 +87,9 @@ def run_game():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if player.click_rect.collidepoint(mouse_pos):
                         player.click()
-                    # Aquí llamamos a handle_click con achievements_manager
+                        save_game(player, shop)  # <-- Guardado automático
                     shop.handle_click(mouse_pos, player, achievements_manager)
+                    save_game(player, shop)  # <-- Guardado tras compras
                 shop.handle_scroll(event)
                 shop.handle_mouse_events(event, mouse_pos, header_height, HEIGHT - header_height)
 
@@ -90,18 +102,15 @@ def run_game():
 
             # ----- DINERO PASIVO -----
             player.apply_auto_income()
+            save_game(player, shop)  # <-- Guardado tras ingreso automático
 
             # ----- ACTUALIZACIÓN DE LOGROS -----
             game_state = {
                 "money": player.money,
                 "total_clicks": player.total_clicks,
-                "upgrades_bought": sum(item["amount"] for item in shop.items)
+                "upgrades_bought": sum(item.amount for item in shop.items)
             }
-
-            # Actualiza logros y prepara notificaciones
             achievements_manager.update_achievements(game_state)
-
-            # Dibuja todas las notificaciones activas
             achievements_manager.manage_notifications(screen, font_small)
 
         pygame.display.flip()

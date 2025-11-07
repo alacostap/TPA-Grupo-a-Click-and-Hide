@@ -1,0 +1,73 @@
+{
+    "player": {
+        "money": 5,
+        "total_clicks": 20,
+        "click_income": 2,
+        "auto_income": 0
+    },
+    "shop": [
+        {
+            "name": "Rat\u00f3n",
+            "cost": 17,
+            "base_income": 1,
+            "tipo": "click",
+            "amount": 1
+        },
+        {
+            "name": "Apuntes (+1/s)",
+            "cost": 50,
+            "base_income": 1,
+            "tipo": "auto",
+            "amount": 0
+        },
+        {
+            "name": "Libro (+5/s)",
+            "cost": 100,
+            "base_income": 5,
+            "tipo": "auto",
+            "amount": 0
+        },
+        {
+            "name": "Pizarra (+10/s)",
+            "cost": 200,
+            "base_income": 10,
+            "tipo": "auto",
+            "amount": 0
+        },
+        {
+            "name": "M\u00f3bil (+25/s)",
+            "cost": 500,
+            "base_income": 25,
+            "tipo": "auto",
+            "amount": 0
+        },
+        {
+            "name": "Tablet (+50/s)",
+            "cost": 1000,
+            "base_income": 50,
+            "tipo": "auto",
+            "amount": 0
+        },
+        {
+            "name": "Ordenador (+100/s)",
+            "cost": 2500,
+            "base_income": 100,
+            "tipo": "auto",
+            "amount": 0
+        },
+        {
+            "name": "Fibra \u00d3ptica (+200/s)",
+            "cost": 7500,
+            "base_income": 200,
+            "tipo": "auto",
+            "amount": 0
+        },
+        {
+            "name": "Servidor (+500/s)",
+            "cost": 10000,
+            "base_income": 500,
+            "tipo": "auto",
+            "amount": 0
+        }
+    ]
+}
