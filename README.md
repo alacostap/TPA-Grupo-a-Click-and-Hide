@@ -9,5 +9,24 @@ Repositorio de GitHub para el proyecto de Técnicas de Programación Avanzada.
 - David Lopez
 
 # Juego/Demo
-- El juego principal se ejecuta en main.
-- La demo se ejecuta en mainDemo.
+
+Ejecuta el juego:
+
+```bash
+python main
+```
+
+Ejecuta la demo
+
+```bash
+python main --demo
+```
+
+# Puesta en marcha
+
+```bash
+python -m venv .venv 
+.venv\Scripts\activate
+python -m pip install -U pip 
+pip install -r requirements.txt
+```
