@@ -4,7 +4,7 @@ Repositorio de GitHub correspondiente al proyecto de Técnicas de Programación 
 
 # Descripción del Juego
 
-Click & Hide es un juego en el que el jugador puede hacer clic repetidamente para acumular dinero, comprar mejoras y desbloquear logros. El juego cuenta con un sistema de tienda donde se pueden adquirir ítems de tipo "click" y "auto", los cuales incrementan los ingresos manuales o pasivos del jugador respectivamente. Cada ítem aumenta su precio progresivamente para mantener el equilibrio del juego. Además, se incluyen logros que registran el progreso y proporcionan incentivos para continuar jugando.
+Click & Hide v.1.0.0 es un juego en el que el jugador puede hacer clic repetidamente para acumular dinero, comprar mejoras y desbloquear logros. El juego cuenta con un sistema de tienda donde se pueden adquirir ítems de tipo "click" y "auto", los cuales incrementan los ingresos manuales o pasivos del jugador respectivamente. Cada ítem aumenta su precio progresivamente para mantener el equilibrio del juego. Además, se incluyen logros que registran el progreso y proporcionan incentivos para continuar jugando.
 
 # Miembros del grupo
 - Miguel Angel Terol
