@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module entities.achievements</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="entities.html" class="white">entities</a>.achievements</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Calvaro%5Conedrive%20-%20universidad%20nebrija%5Cdocumentos%5Ctpa-grupo-a-click-and-hide%5Cclickandhide%5Centities%5Cachievements.py">c:\users\alvaro\onedrive - universidad nebrija\documentos\tpa-grupo-a-click-and-hide\clickandhide\entities\achievements.py</a></td></tr></table>
+    <p><span class="code">entities/achievements.py<br>
+&nbsp;<br>
+Sistema&nbsp;de&nbsp;logros&nbsp;del&nbsp;juego&nbsp;Click&nbsp;&amp;&nbsp;Hide.<br>
+Define&nbsp;las&nbsp;clases&nbsp;<a href="#Achievements">Achievements</a>&nbsp;y&nbsp;<a href="#AchievementNotification">AchievementNotification</a><br>
+para&nbsp;gestionar&nbsp;los&nbsp;logros&nbsp;desbloqueados&nbsp;y&nbsp;sus&nbsp;notificaciones&nbsp;visuales.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"><a href="time.html">time</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="entities.achievements.html#AchievementNotification">AchievementNotification</a>
+</dt><dt class="heading-text"><a href="entities.achievements.html#Achievements">Achievements</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="AchievementNotification">class <strong>AchievementNotification</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#AchievementNotification">AchievementNotification</a>(achievement)<br>
+&nbsp;<br>
+Representa&nbsp;una&nbsp;notificación&nbsp;visual&nbsp;para&nbsp;un&nbsp;logro&nbsp;desbloqueado.<br>
+&nbsp;<br>
+Atributos:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;achievement&nbsp;(dict):&nbsp;Información&nbsp;del&nbsp;logro&nbsp;asociado.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;start_time&nbsp;(float):&nbsp;Tiempo&nbsp;en&nbsp;segundos&nbsp;en&nbsp;que&nbsp;se&nbsp;activó&nbsp;la&nbsp;notificación.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;duration&nbsp;(float):&nbsp;Duración&nbsp;total&nbsp;de&nbsp;la&nbsp;notificación&nbsp;en&nbsp;pantalla.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slide_time&nbsp;(float):&nbsp;Duración&nbsp;de&nbsp;la&nbsp;animación&nbsp;de&nbsp;entrada/salida.<br>
+&nbsp;<br>
+Métodos:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#AchievementNotification-is_active_notification">is_active_notification</a>():&nbsp;Indica&nbsp;si&nbsp;la&nbsp;notificación&nbsp;sigue&nbsp;activa.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#AchievementNotification-draw_notification">draw_notification</a>(screen,&nbsp;font):&nbsp;Dibuja&nbsp;la&nbsp;notificación&nbsp;en&nbsp;pantalla.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="AchievementNotification-__init__"><strong>__init__</strong></a>(self, achievement)</dt><dd><span class="code">Inicializa&nbsp;la&nbsp;notificación&nbsp;con&nbsp;tiempos&nbsp;de&nbsp;duración&nbsp;y&nbsp;animación.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;achievement&nbsp;(dict):&nbsp;Diccionario&nbsp;con&nbsp;los&nbsp;datos&nbsp;del&nbsp;logro&nbsp;desbloqueado.</span></dd></dl>
+
+<dl><dt><a name="AchievementNotification-draw_notification"><strong>draw_notification</strong></a>(self, screen, font)</dt><dd><span class="code">Dibuja&nbsp;una&nbsp;notificación&nbsp;visual&nbsp;del&nbsp;logro&nbsp;en&nbsp;pantalla.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen&nbsp;(pygame.Surface):&nbsp;Superficie&nbsp;donde&nbsp;se&nbsp;mostrará&nbsp;la&nbsp;notificación.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;font&nbsp;(pygame.font.Font):&nbsp;Fuente&nbsp;utilizada&nbsp;para&nbsp;renderizar&nbsp;el&nbsp;texto.<br>
+&nbsp;<br>
+Crea&nbsp;una&nbsp;animación&nbsp;deslizante&nbsp;desde&nbsp;la&nbsp;izquierda,&nbsp;con&nbsp;el&nbsp;nombre&nbsp;del&nbsp;logro<br>
+y&nbsp;el&nbsp;texto&nbsp;"LOGRO&nbsp;DESBLOQUEADO!".</span></dd></dl>
+
+<dl><dt><a name="AchievementNotification-is_active_notification"><strong>is_active_notification</strong></a>(self)</dt><dd><span class="code">Indica&nbsp;si&nbsp;la&nbsp;notificación&nbsp;aún&nbsp;debe&nbsp;mostrarse&nbsp;en&nbsp;pantalla.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;si&nbsp;la&nbsp;notificación&nbsp;sigue&nbsp;activa;&nbsp;False&nbsp;si&nbsp;expiró.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Achievements">class <strong>Achievements</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Clase&nbsp;para&nbsp;gestionar&nbsp;los&nbsp;logros&nbsp;del&nbsp;jugador&nbsp;y&nbsp;sus&nbsp;notificaciones&nbsp;en&nbsp;pantalla.<br>
+&nbsp;<br>
+Atributos:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;achievements&nbsp;(list[dict]):&nbsp;Lista&nbsp;de&nbsp;logros&nbsp;disponibles&nbsp;con&nbsp;nombre,&nbsp;descripción,&nbsp;condición&nbsp;y&nbsp;estado.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;active_notifications&nbsp;(list[<a href="#AchievementNotification">AchievementNotification</a>]):&nbsp;Lista&nbsp;de&nbsp;notificaciones&nbsp;de&nbsp;logros&nbsp;activas.<br>
+&nbsp;<br>
+Métodos:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Achievements-update_achievements">update_achievements</a>(state):&nbsp;Comprueba&nbsp;si&nbsp;se&nbsp;cumplen&nbsp;condiciones&nbsp;y&nbsp;desbloquea&nbsp;logros.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Achievements-manage_notifications">manage_notifications</a>(screen,&nbsp;font):&nbsp;Dibuja&nbsp;y&nbsp;gestiona&nbsp;las&nbsp;notificaciones&nbsp;activas.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Achievements-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Inicializa&nbsp;la&nbsp;lista&nbsp;de&nbsp;logros&nbsp;y&nbsp;la&nbsp;lista&nbsp;de&nbsp;notificaciones&nbsp;activas.</span></dd></dl>
+
+<dl><dt><a name="Achievements-manage_notifications"><strong>manage_notifications</strong></a>(self, screen, font)</dt><dd><span class="code">Actualiza&nbsp;y&nbsp;muestra&nbsp;todas&nbsp;las&nbsp;notificaciones&nbsp;activas&nbsp;en&nbsp;pantalla.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen&nbsp;(pygame.Surface):&nbsp;Superficie&nbsp;donde&nbsp;se&nbsp;dibujan&nbsp;las&nbsp;notificaciones.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;font&nbsp;(pygame.font.Font):&nbsp;Fuente&nbsp;usada&nbsp;para&nbsp;renderizar&nbsp;el&nbsp;texto.<br>
+&nbsp;<br>
+Dibuja&nbsp;cada&nbsp;notificación,&nbsp;elimina&nbsp;las&nbsp;expiradas&nbsp;y&nbsp;mantiene&nbsp;las&nbsp;activas&nbsp;visibles.</span></dd></dl>
+
+<dl><dt><a name="Achievements-update_achievements"><strong>update_achievements</strong></a>(self, state)</dt><dd><span class="code">Comprueba&nbsp;el&nbsp;estado&nbsp;del&nbsp;juego&nbsp;y&nbsp;desbloquea&nbsp;logros&nbsp;nuevos.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;state&nbsp;(dict):&nbsp;Estado&nbsp;actual&nbsp;del&nbsp;juego,&nbsp;con&nbsp;datos&nbsp;como&nbsp;dinero,&nbsp;clics&nbsp;y&nbsp;mejoras&nbsp;compradas.<br>
+&nbsp;<br>
+Si&nbsp;se&nbsp;cumple&nbsp;la&nbsp;condición&nbsp;de&nbsp;un&nbsp;logro&nbsp;aún&nbsp;no&nbsp;completado,<br>
+lo&nbsp;marca&nbsp;como&nbsp;desbloqueado&nbsp;y&nbsp;genera&nbsp;una&nbsp;notificación&nbsp;visual.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

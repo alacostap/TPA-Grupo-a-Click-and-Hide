@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module game</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">game</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Calvaro%5Conedrive%20-%20universidad%20nebrija%5Cdocumentos%5Ctpa-grupo-a-click-and-hide%5Cclickandhide%5Cgame.py">c:\users\alvaro\onedrive - universidad nebrija\documentos\tpa-grupo-a-click-and-hide\clickandhide\game.py</a></td></tr></table>
+    <p><span class="code">game.py&nbsp;—&nbsp;Lógica&nbsp;principal&nbsp;del&nbsp;juego&nbsp;Click&nbsp;&amp;&nbsp;Hide.<br>
+&nbsp;<br>
+Contiene&nbsp;tanto&nbsp;el&nbsp;modo&nbsp;normal&nbsp;(con&nbsp;menú,&nbsp;intro&nbsp;y&nbsp;guardado)<br>
+como&nbsp;el&nbsp;modo&nbsp;demo&nbsp;(automático,&nbsp;sin&nbsp;menú&nbsp;ni&nbsp;intro).</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"><a href="time.html">time</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-run_game"><strong>run_game</strong></a>()</dt><dd><span class="code">Ejecuta&nbsp;el&nbsp;bucle&nbsp;principal&nbsp;del&nbsp;juego&nbsp;Click&nbsp;&amp;&nbsp;Hide.<br>
+&nbsp;<br>
+Este&nbsp;modo&nbsp;incluye:<br>
+&nbsp;&nbsp;-&nbsp;Menú&nbsp;principal&nbsp;con&nbsp;opciones&nbsp;de&nbsp;juego.<br>
+&nbsp;&nbsp;-&nbsp;Pantalla&nbsp;de&nbsp;introducción.<br>
+&nbsp;&nbsp;-&nbsp;Sistema&nbsp;de&nbsp;guardado/carga&nbsp;de&nbsp;progreso.<br>
+&nbsp;&nbsp;-&nbsp;Gestión&nbsp;de&nbsp;clics,&nbsp;compras&nbsp;y&nbsp;logros.<br>
+&nbsp;<br>
+Comportamiento:<br>
+&nbsp;&nbsp;-&nbsp;Usa&nbsp;`ESC`&nbsp;para&nbsp;volver&nbsp;al&nbsp;menú.<br>
+&nbsp;&nbsp;-&nbsp;Guarda&nbsp;el&nbsp;progreso&nbsp;automáticamente&nbsp;tras&nbsp;cada&nbsp;acción.<br>
+&nbsp;&nbsp;-&nbsp;Dibuja&nbsp;interfaz&nbsp;principal&nbsp;(fondo,&nbsp;cabecera,&nbsp;tienda,&nbsp;etc.).</span></dd></dl>
+ <dl><dt><a name="-run_game_demo"><strong>run_game_demo</strong></a>()</dt><dd><span class="code">Ejecuta&nbsp;una&nbsp;versión&nbsp;automática&nbsp;del&nbsp;juego&nbsp;(modo&nbsp;demostración).<br>
+&nbsp;<br>
+Este&nbsp;modo&nbsp;no&nbsp;incluye&nbsp;menú&nbsp;ni&nbsp;intro,&nbsp;y&nbsp;funciona&nbsp;sin&nbsp;interacción&nbsp;del&nbsp;jugador.<br>
+&nbsp;<br>
+Características:<br>
+&nbsp;&nbsp;-&nbsp;Realiza&nbsp;clics&nbsp;automáticos&nbsp;periódicos.<br>
+&nbsp;&nbsp;-&nbsp;Compra&nbsp;ítems&nbsp;de&nbsp;la&nbsp;tienda&nbsp;según&nbsp;el&nbsp;dinero&nbsp;disponible.<br>
+&nbsp;&nbsp;-&nbsp;Se&nbsp;cierra&nbsp;automáticamente&nbsp;después&nbsp;de&nbsp;30&nbsp;segundos.<br>
+&nbsp;<br>
+Ideal&nbsp;para&nbsp;pruebas&nbsp;rápidas&nbsp;o&nbsp;capturas&nbsp;de&nbsp;pantalla.</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>FPS</strong> = 60<br>
+<strong>HEIGHT</strong> = 720<br>
+<strong>MONEY_START</strong> = 0<br>
+<strong>WIDTH</strong> = 1280</td></tr></table>
+</body></html>

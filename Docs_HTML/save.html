@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module save</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">save</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Calvaro%5Conedrive%20-%20universidad%20nebrija%5Cdocumentos%5Ctpa-grupo-a-click-and-hide%5Cclickandhide%5Csave.py">c:\users\alvaro\onedrive - universidad nebrija\documentos\tpa-grupo-a-click-and-hide\clickandhide\save.py</a></td></tr></table>
+    <p><span class="code">save.py&nbsp;—&nbsp;Gestión&nbsp;de&nbsp;guardado&nbsp;y&nbsp;carga&nbsp;de&nbsp;partidas&nbsp;de&nbsp;Click&nbsp;&amp;&nbsp;Hide.<br>
+&nbsp;<br>
+Incluye&nbsp;funciones&nbsp;para:<br>
+&nbsp;&nbsp;-&nbsp;Guardar&nbsp;automáticamente&nbsp;el&nbsp;estado&nbsp;del&nbsp;jugador&nbsp;y&nbsp;la&nbsp;tienda.<br>
+&nbsp;&nbsp;-&nbsp;Cargar&nbsp;partidas&nbsp;existentes&nbsp;al&nbsp;iniciar&nbsp;el&nbsp;juego.<br>
+El&nbsp;archivo&nbsp;de&nbsp;guardado&nbsp;será&nbsp;`savegame.json`&nbsp;en&nbsp;la&nbsp;carpeta&nbsp;raíz&nbsp;del&nbsp;proyecto.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="json.html">json</a><br>
+</td><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-load_game"><strong>load_game</strong></a>(player, shop)</dt><dd><span class="code">Carga&nbsp;la&nbsp;partida&nbsp;guardada&nbsp;si&nbsp;existe&nbsp;y&nbsp;actualiza&nbsp;el&nbsp;jugador&nbsp;y&nbsp;la&nbsp;tienda.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;player&nbsp;(Player):&nbsp;Instancia&nbsp;del&nbsp;jugador&nbsp;que&nbsp;se&nbsp;actualizará&nbsp;con&nbsp;los&nbsp;datos&nbsp;guardados.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;shop&nbsp;(Shop):&nbsp;Instancia&nbsp;de&nbsp;la&nbsp;tienda&nbsp;cuyos&nbsp;ítems&nbsp;se&nbsp;actualizarán&nbsp;según&nbsp;la&nbsp;partida&nbsp;guardada.</span></dd></dl>
+ <dl><dt><a name="-save_game"><strong>save_game</strong></a>(player, shop)</dt><dd><span class="code">Guarda&nbsp;automáticamente&nbsp;el&nbsp;estado&nbsp;actual&nbsp;del&nbsp;jugador&nbsp;y&nbsp;la&nbsp;tienda&nbsp;en&nbsp;disco.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;player&nbsp;(Player):&nbsp;Instancia&nbsp;del&nbsp;jugador&nbsp;con&nbsp;dinero,&nbsp;clics&nbsp;e&nbsp;ingresos.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;shop&nbsp;(Shop):&nbsp;Instancia&nbsp;de&nbsp;la&nbsp;tienda&nbsp;con&nbsp;los&nbsp;ítems&nbsp;y&nbsp;sus&nbsp;cantidades.</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>SAVE_FILE</strong> = r'C:\Users\Alvaro\OneDrive - Universidad Nebrija\D...-a-Click-and-Hide\ClickAndHide\docs\savegame.json'</td></tr></table>
+</body></html>

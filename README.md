@@ -14,12 +14,11 @@ Click & Hide v.1.0.0 es un juego en el que el jugador puede hacer clic repetidam
 - David Lopez
 
 # Registro de contribuciones
-- Alvaro Lacosta - Implementacion de logros, version final del menú y savegame
-- David Lopez - Implemetacion de la tienda y patrones de diseño creacionales
-- Miguel Angel Terol - Codigo base del programa, assets y documentación
-- Guillermo Puertas - venv, diagrama UML, HTML docs, version final del player
-- Jaime San Feliciano - Interfaz grafica e implementación de la demo
-
+- Alvaro Lacosta - Implementacion de logros, menu, código.
+- David Lopez - Implemetacion de la tienda y patrones de diseño creacionales.
+- Miguel Angel Terol - Codigo base del programa, assets y documentación.
+- Guillermo Puertas - venv, diagrama UML, HTML docs y código.
+- Jaime San Feliciano - Interfaz grafica.
 
 # Herramientas 
 - Python 3.11+
@@ -28,10 +27,34 @@ Click & Hide v.1.0.0 es un juego en el que el jugador puede hacer clic repetidam
 - Docstrings
 - PyDoc
 
-# Ejecución
-**El proyecto dispone de dos modos de ejecución:**
-- Juego principal: ejecutable a través de main.py, incluye menú, animación de introducción y todas las funcionalidades de la versión completa.
-- Demo automática: ejecutable a través de mainDemo.py, donde una IA sencilla realiza clics y compras automáticas para mostrar la mecánica básica del juego sin interacción del jugador.
 
-# Enlace
-https://github.com/alacostap/TPA-Grupo-a-Click-and-Hide
+# Ejecución
+**Clonar el repositorio**
+git clone https://github.com/alacostap/TPA-Grupo-a-Click-and-Hide.git
+cd TPA-Grupo-a-Click-and-Hide
+
+**Permitir la ejecución de scripts en PowerShell (solo la primera vez)**
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+**Crear y activar el entorno virtual**
+python -m venv venv
+venv\Scripts\activate
+
+**Instalar dependencias**
+pip install -r requirements.txt
+
+**Ir a la carpeta del juego y ejecutar**
+cd ClickAndHide
+python main.py         # Ejecutar en modo normal
+python main.py --demo  # Ejecutar en modo demo
+
+**Desactivar el entorno virtual**
+deactivate
+
+# Documentos HTML
+Clonar el repositorio (vease Ejecución)
+Acceder a la carpeta "Docs_HTML"
+Ejecutar cd.. si en la ruta TPA-Grupo-a-Click-and-Hide\ClickAndHide para acceder a TPA-Grupo-a-Click-and-Hide
+Ejecutar cd "Docs_HTML"
+Ejecutar start + nombre del archivo.
+    Ejemplo: ``start main.html``

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module auxiliary</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">auxiliary</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Calvaro%5Conedrive%20-%20universidad%20nebrija%5Cdocumentos%5Ctpa-grupo-a-click-and-hide%5Cclickandhide%5Cauxiliary.py">c:\users\alvaro\onedrive - universidad nebrija\documentos\tpa-grupo-a-click-and-hide\clickandhide\auxiliary.py</a></td></tr></table>
+    <p><span class="code">auxiliary.py&nbsp;—&nbsp;Funciones&nbsp;auxiliares&nbsp;para&nbsp;Click&nbsp;&amp;&nbsp;Hide.<br>
+&nbsp;<br>
+Incluye&nbsp;utilidades&nbsp;generales:<br>
+-&nbsp;Lógica&nbsp;simple&nbsp;(control&nbsp;de&nbsp;dinero,&nbsp;cooldowns)<br>
+-&nbsp;Funciones&nbsp;de&nbsp;dibujo&nbsp;(fondo,&nbsp;cabecera,&nbsp;paneles)</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"><a href="time.html">time</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-can_earn"><strong>can_earn</strong></a>(last_earn_time)</dt><dd><span class="code">Indica&nbsp;si&nbsp;el&nbsp;jugador&nbsp;puede&nbsp;volver&nbsp;a&nbsp;ganar&nbsp;dinero&nbsp;tras&nbsp;el&nbsp;cooldown.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;last_earn_time&nbsp;(float):&nbsp;Tiempo&nbsp;del&nbsp;último&nbsp;clic&nbsp;o&nbsp;ganancia.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;si&nbsp;ya&nbsp;pasó&nbsp;el&nbsp;tiempo&nbsp;de&nbsp;espera.</span></dd></dl>
+ <dl><dt><a name="-clamp_money"><strong>clamp_money</strong></a>(money)</dt><dd><span class="code">Limita&nbsp;el&nbsp;dinero&nbsp;del&nbsp;jugador&nbsp;a&nbsp;un&nbsp;valor&nbsp;mínimo&nbsp;de&nbsp;0.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;money&nbsp;(float):&nbsp;Cantidad&nbsp;de&nbsp;dinero&nbsp;actual.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;float:&nbsp;Dinero&nbsp;corregido&nbsp;(0&nbsp;si&nbsp;es&nbsp;negativo).</span></dd></dl>
+ <dl><dt><a name="-draw_gradient_background"><strong>draw_gradient_background</strong></a>(screen, width, height)</dt><dd><span class="code">Dibuja&nbsp;un&nbsp;fondo&nbsp;degradado&nbsp;vertical&nbsp;con&nbsp;tonos&nbsp;beige.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen&nbsp;(pygame.Surface):&nbsp;Superficie&nbsp;donde&nbsp;se&nbsp;dibuja.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;width&nbsp;(int):&nbsp;Ancho&nbsp;total&nbsp;del&nbsp;área&nbsp;de&nbsp;dibujo.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;height&nbsp;(int):&nbsp;Alto&nbsp;total&nbsp;del&nbsp;área&nbsp;de&nbsp;dibujo.</span></dd></dl>
+ <dl><dt><a name="-draw_header"><strong>draw_header</strong></a>(screen, font_medium, font_small, player)</dt><dd><span class="code">Dibuja&nbsp;la&nbsp;cabecera&nbsp;del&nbsp;juego&nbsp;con&nbsp;información&nbsp;del&nbsp;jugador.<br>
+&nbsp;<br>
+Muestra:<br>
+&nbsp;&nbsp;-&nbsp;Dinero&nbsp;actual<br>
+&nbsp;&nbsp;-&nbsp;Número&nbsp;total&nbsp;de&nbsp;clics<br>
+&nbsp;&nbsp;-&nbsp;Ganancia&nbsp;por&nbsp;clic<br>
+&nbsp;&nbsp;-&nbsp;Ganancia&nbsp;automática&nbsp;por&nbsp;segundo<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen&nbsp;(pygame.Surface):&nbsp;Superficie&nbsp;donde&nbsp;se&nbsp;dibuja.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;font_medium&nbsp;(pygame.font.Font):&nbsp;Fuente&nbsp;principal&nbsp;para&nbsp;el&nbsp;dinero.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;font_small&nbsp;(pygame.font.Font):&nbsp;Fuente&nbsp;para&nbsp;los&nbsp;textos&nbsp;secundarios.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;player&nbsp;(Player):&nbsp;Instancia&nbsp;del&nbsp;jugador&nbsp;con&nbsp;estadísticas&nbsp;actuales.</span></dd></dl>
+ <dl><dt><a name="-draw_shop_panel"><strong>draw_shop_panel</strong></a>(screen, panel_x, panel_y, panel_width, panel_h)</dt><dd><span class="code">Dibuja&nbsp;el&nbsp;panel&nbsp;principal&nbsp;de&nbsp;la&nbsp;tienda&nbsp;con&nbsp;sombra&nbsp;y&nbsp;fondo&nbsp;beige.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen&nbsp;(pygame.Surface):&nbsp;Superficie&nbsp;donde&nbsp;se&nbsp;dibuja.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;panel_x&nbsp;(int):&nbsp;Posición&nbsp;X&nbsp;del&nbsp;panel.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;panel_y&nbsp;(int):&nbsp;Posición&nbsp;Y&nbsp;del&nbsp;panel.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;panel_width&nbsp;(int):&nbsp;Ancho&nbsp;del&nbsp;panel.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;panel_h&nbsp;(int):&nbsp;Altura&nbsp;del&nbsp;panel.</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>ASSETS_PATH</strong> = 'assets'<br>
+<strong>COLOR_BG_BOTTOM</strong> = (235, 220, 180)<br>
+<strong>COLOR_BG_TOP</strong> = (250, 240, 210)<br>
+<strong>COLOR_HEADER</strong> = (180, 150, 100)<br>
+<strong>COLOR_PANEL</strong> = (245, 240, 220)<br>
+<strong>COLOR_TEXT</strong> = (50, 35, 20)<br>
+<strong>DEBUG_MODE</strong> = False<br>
+<strong>EARN_AMOUNT</strong> = 1<br>
+<strong>EARN_COOLDOWN</strong> = 0.2<br>
+<strong>FONTS_PATH</strong> = 'assets/fonts'<br>
+<strong>FONT_BIG</strong> = 28<br>
+<strong>FONT_MEDIUM</strong> = 18<br>
+<strong>FONT_PATH</strong> = 'assets/fonts/PressStart2P.ttf'<br>
+<strong>FONT_SMALL</strong> = 14<br>
+<strong>FPS</strong> = 60<br>
+<strong>FULLSCREEN</strong> = False<br>
+<strong>HEIGHT</strong> = 720<br>
+<strong>IMAGES_PATH</strong> = 'assets/images'<br>
+<strong>INTRO_FONT_SIZE</strong> = 64<br>
+<strong>INTRO_IMAGE</strong> = 'clase.png'<br>
+<strong>INTRO_LOAD_DURATION</strong> = 5.0<br>
+<strong>INTRO_MOVE_DURATION</strong> = 3.0<br>
+<strong>INTRO_TEXT</strong> = 'CLICK AND HIDE'<br>
+<strong>INTRO_TEXT_COLOR</strong> = (255, 255, 255)<br>
+<strong>LOGO_SIZE</strong> = (100, 100)<br>
+<strong>MONEY_START</strong> = 0<br>
+<strong>SHOP_ITEM_HEIGHT</strong> = 60<br>
+<strong>SHOP_PADDING_X</strong> = 30<br>
+<strong>SHOP_PADDING_Y</strong> = 8<br>
+<strong>SHOP_PANEL_WIDTH</strong> = 380<br>
+<strong>SOUNDS_PATH</strong> = 'assets/sounds'<br>
+<strong>WIDTH</strong> = 1280</td></tr></table>
+</body></html>

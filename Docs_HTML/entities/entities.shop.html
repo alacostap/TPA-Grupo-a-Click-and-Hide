@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module entities.shop</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="entities.html" class="white">entities</a>.shop</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Calvaro%5Conedrive%20-%20universidad%20nebrija%5Cdocumentos%5Ctpa-grupo-a-click-and-hide%5Cclickandhide%5Centities%5Cshop.py">c:\users\alvaro\onedrive - universidad nebrija\documentos\tpa-grupo-a-click-and-hide\clickandhide\entities\shop.py</a></td></tr></table>
+    <p><span class="code">entities/shop.py<br>
+&nbsp;<br>
+Clases&nbsp;relacionadas&nbsp;con&nbsp;la&nbsp;tienda&nbsp;para&nbsp;Click&nbsp;&amp;&nbsp;Hide.<br>
+Gestiona&nbsp;la&nbsp;tienda,&nbsp;los&nbsp;ítems,&nbsp;las&nbsp;compras,&nbsp;el&nbsp;scroll&nbsp;y&nbsp;el&nbsp;deslizador&nbsp;lateral.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="entities.shop.html#Shop">Shop</a>
+</dt><dt class="heading-text"><a href="entities.shop.html#ShopItem">ShopItem</a>
+</dt><dt class="heading-text"><a href="entities.shop.html#ShopItemFactory">ShopItemFactory</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Shop">class <strong>Shop</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Representa&nbsp;la&nbsp;tienda&nbsp;del&nbsp;juego&nbsp;y&nbsp;gestiona&nbsp;la&nbsp;lógica&nbsp;de&nbsp;interacción.<br>
+&nbsp;<br>
+Atributos:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;shop_data&nbsp;(list):&nbsp;Datos&nbsp;base&nbsp;de&nbsp;los&nbsp;ítems&nbsp;disponibles.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;items&nbsp;(list[<a href="#ShopItem">ShopItem</a>]):&nbsp;Lista&nbsp;de&nbsp;ítems&nbsp;creados.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;scroll_offset&nbsp;(int):&nbsp;Desplazamiento&nbsp;actual&nbsp;del&nbsp;scroll.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;scroll_speed&nbsp;(int):&nbsp;Velocidad&nbsp;de&nbsp;desplazamiento.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;max_scroll&nbsp;(int):&nbsp;Máximo&nbsp;desplazamiento&nbsp;posible.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dragging_slider&nbsp;(bool):&nbsp;Indica&nbsp;si&nbsp;el&nbsp;deslizador&nbsp;está&nbsp;siendo&nbsp;arrastrado.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slider_rect&nbsp;(pygame.Rect):&nbsp;Área&nbsp;del&nbsp;deslizador&nbsp;lateral.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Shop-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Inicializa&nbsp;la&nbsp;tienda&nbsp;con&nbsp;ítems&nbsp;base&nbsp;y&nbsp;parámetros&nbsp;de&nbsp;scroll.</span></dd></dl>
+
+<dl><dt><a name="Shop-draw"><strong>draw</strong></a>(self, screen, font_small, font_big, player, mouse_pos, WIDTH, HEIGHT)</dt><dd><span class="code">Dibuja&nbsp;la&nbsp;tienda&nbsp;completa&nbsp;con&nbsp;su&nbsp;panel,&nbsp;ítems&nbsp;y&nbsp;deslizador&nbsp;lateral.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen&nbsp;(pygame.Surface):&nbsp;Superficie&nbsp;donde&nbsp;se&nbsp;dibuja.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;font_small&nbsp;(pygame.font.Font):&nbsp;Fuente&nbsp;pequeña&nbsp;para&nbsp;texto.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;font_big&nbsp;(pygame.font.Font):&nbsp;Fuente&nbsp;grande&nbsp;para&nbsp;el&nbsp;título.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;player&nbsp;(Player):&nbsp;Instancia&nbsp;del&nbsp;jugador&nbsp;para&nbsp;comprobar&nbsp;dinero.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mouse_pos&nbsp;(tuple[int,&nbsp;int]):&nbsp;Posición&nbsp;del&nbsp;ratón.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WIDTH&nbsp;(int):&nbsp;Ancho&nbsp;de&nbsp;la&nbsp;ventana.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;HEIGHT&nbsp;(int):&nbsp;Alto&nbsp;de&nbsp;la&nbsp;ventana.</span></dd></dl>
+
+<dl><dt><a name="Shop-handle_click"><strong>handle_click</strong></a>(self, mouse_pos, player, achievements_manager=None)</dt><dd><span class="code">Gestiona&nbsp;las&nbsp;compras&nbsp;cuando&nbsp;el&nbsp;jugador&nbsp;hace&nbsp;clic&nbsp;sobre&nbsp;un&nbsp;ítem.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mouse_pos&nbsp;(tuple[int,&nbsp;int]):&nbsp;Posición&nbsp;actual&nbsp;del&nbsp;ratón.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;player&nbsp;(Player):&nbsp;Instancia&nbsp;del&nbsp;jugador.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;achievements_manager&nbsp;(Achievements,&nbsp;opcional):&nbsp;Sistema&nbsp;de&nbsp;logros.<br>
+&nbsp;<br>
+Efectos:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Resta&nbsp;dinero&nbsp;al&nbsp;jugador&nbsp;al&nbsp;comprar.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Aumenta&nbsp;la&nbsp;cantidad&nbsp;del&nbsp;ítem.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Incrementa&nbsp;el&nbsp;ingreso&nbsp;del&nbsp;jugador.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Actualiza&nbsp;los&nbsp;logros&nbsp;si&nbsp;aplica.</span></dd></dl>
+
+<dl><dt><a name="Shop-handle_mouse_events"><strong>handle_mouse_events</strong></a>(self, event, mouse_pos, panel_y, panel_h)</dt><dd><span class="code">Controla&nbsp;el&nbsp;comportamiento&nbsp;del&nbsp;deslizador&nbsp;lateral&nbsp;para&nbsp;hacer&nbsp;scroll&nbsp;manual.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;event&nbsp;(pygame.event.Event):&nbsp;Evento&nbsp;de&nbsp;Pygame.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mouse_pos&nbsp;(tuple[int,&nbsp;int]):&nbsp;Posición&nbsp;actual&nbsp;del&nbsp;ratón.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;panel_y&nbsp;(int):&nbsp;Posición&nbsp;vertical&nbsp;del&nbsp;panel.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;panel_h&nbsp;(int):&nbsp;Altura&nbsp;del&nbsp;panel&nbsp;de&nbsp;la&nbsp;tienda.</span></dd></dl>
+
+<dl><dt><a name="Shop-handle_scroll"><strong>handle_scroll</strong></a>(self, event)</dt><dd><span class="code">Maneja&nbsp;el&nbsp;desplazamiento&nbsp;vertical&nbsp;con&nbsp;la&nbsp;rueda&nbsp;del&nbsp;ratón.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;event&nbsp;(pygame.event.Event):&nbsp;Evento&nbsp;de&nbsp;Pygame&nbsp;del&nbsp;tipo&nbsp;MOUSEWHEEL.</span></dd></dl>
+
+<dl><dt><a name="Shop-init_items"><strong>init_items</strong></a>(self)</dt><dd><span class="code">Crea&nbsp;o&nbsp;reinicia&nbsp;todos&nbsp;los&nbsp;ítems&nbsp;usando&nbsp;la&nbsp;clase&nbsp;fábrica.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="ShopItem">class <strong>ShopItem</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#ShopItem">ShopItem</a>(name,&nbsp;cost,&nbsp;income,&nbsp;tipo,&nbsp;color)<br>
+&nbsp;<br>
+Representa&nbsp;un&nbsp;ítem&nbsp;individual&nbsp;dentro&nbsp;de&nbsp;la&nbsp;tienda.<br>
+&nbsp;<br>
+Atributos:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;(str):&nbsp;Nombre&nbsp;del&nbsp;ítem.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cost&nbsp;(int):&nbsp;Costo&nbsp;actual&nbsp;del&nbsp;ítem.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;base_income&nbsp;(int):&nbsp;Incremento&nbsp;base&nbsp;de&nbsp;ingresos&nbsp;que&nbsp;aporta&nbsp;el&nbsp;ítem.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tipo&nbsp;(str):&nbsp;Tipo&nbsp;de&nbsp;ítem&nbsp;('click'&nbsp;o&nbsp;'auto').<br>
+&nbsp;&nbsp;&nbsp;&nbsp;amount&nbsp;(int):&nbsp;Cantidad&nbsp;de&nbsp;unidades&nbsp;compradas.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;color&nbsp;(tuple):&nbsp;Color&nbsp;RGB&nbsp;asociado&nbsp;al&nbsp;ítem.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rect&nbsp;(pygame.Rect):&nbsp;Rectángulo&nbsp;de&nbsp;interacción&nbsp;en&nbsp;pantalla.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="ShopItem-__init__"><strong>__init__</strong></a>(self, name, cost, income, tipo, color)</dt><dd><span class="code">Inicializa&nbsp;un&nbsp;ítem&nbsp;con&nbsp;sus&nbsp;atributos&nbsp;básicos.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="ShopItemFactory">class <strong>ShopItemFactory</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Crea&nbsp;instancias&nbsp;de&nbsp;ítems&nbsp;de&nbsp;la&nbsp;tienda&nbsp;mediante&nbsp;un&nbsp;método&nbsp;de&nbsp;fábrica.<br>
+Actualmente&nbsp;todos&nbsp;los&nbsp;ítems&nbsp;son&nbsp;de&nbsp;tipo&nbsp;<a href="#ShopItem">ShopItem</a>,&nbsp;pero&nbsp;este&nbsp;patrón&nbsp;permite<br>
+ampliar&nbsp;el&nbsp;sistema&nbsp;con&nbsp;otros&nbsp;tipos&nbsp;en&nbsp;el&nbsp;futuro&nbsp;(por&nbsp;ejemplo,&nbsp;ítems&nbsp;especiales).<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Static methods defined here:<br>
+<dl><dt><a name="ShopItemFactory-create_item"><strong>create_item</strong></a>(name, cost, income, tipo, color)</dt><dd><span class="code">Crea&nbsp;un&nbsp;nuevo&nbsp;ítem&nbsp;de&nbsp;la&nbsp;tienda.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;(str):&nbsp;Nombre&nbsp;del&nbsp;ítem.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cost&nbsp;(int):&nbsp;Precio&nbsp;inicial&nbsp;del&nbsp;ítem.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;income&nbsp;(int):&nbsp;Ingreso&nbsp;que&nbsp;genera&nbsp;el&nbsp;ítem.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tipo&nbsp;(str):&nbsp;Tipo&nbsp;('click'&nbsp;o&nbsp;'auto').<br>
+&nbsp;&nbsp;&nbsp;&nbsp;color&nbsp;(tuple):&nbsp;Color&nbsp;RGB.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ShopItem">ShopItem</a>:&nbsp;Nueva&nbsp;instancia&nbsp;de&nbsp;ítem&nbsp;creada.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

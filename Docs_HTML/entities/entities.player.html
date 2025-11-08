@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module entities.player</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="entities.html" class="white">entities</a>.player</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Calvaro%5Conedrive%20-%20universidad%20nebrija%5Cdocumentos%5Ctpa-grupo-a-click-and-hide%5Cclickandhide%5Centities%5Cplayer.py">c:\users\alvaro\onedrive - universidad nebrija\documentos\tpa-grupo-a-click-and-hide\clickandhide\entities\player.py</a></td></tr></table>
+    <p><span class="code">entities/player.py<br>
+&nbsp;<br>
+Define&nbsp;la&nbsp;clase&nbsp;<a href="#Player">Player</a>&nbsp;del&nbsp;juego&nbsp;Click&nbsp;&amp;&nbsp;Hide.<br>
+Gestiona&nbsp;el&nbsp;dinero,&nbsp;los&nbsp;ingresos&nbsp;por&nbsp;clic&nbsp;y&nbsp;automáticos,<br>
+así&nbsp;como&nbsp;el&nbsp;dibujo&nbsp;del&nbsp;botón&nbsp;de&nbsp;clic&nbsp;principal.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="pygame.html">pygame</a><br>
+</td><td class="multicolumn"><a href="time.html">time</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="entities.player.html#Player">Player</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Player">class <strong>Player</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">Representa&nbsp;al&nbsp;jugador&nbsp;y&nbsp;su&nbsp;progreso&nbsp;dentro&nbsp;del&nbsp;juego.<br>
+&nbsp;<br>
+Atributos:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;money&nbsp;(int):&nbsp;Dinero&nbsp;actual&nbsp;del&nbsp;jugador.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;total_clicks&nbsp;(int):&nbsp;Número&nbsp;total&nbsp;de&nbsp;clics&nbsp;realizados.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;click_income&nbsp;(int):&nbsp;Dinero&nbsp;ganado&nbsp;por&nbsp;cada&nbsp;clic&nbsp;manual.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;auto_income&nbsp;(int):&nbsp;Dinero&nbsp;ganado&nbsp;automáticamente&nbsp;por&nbsp;segundo.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;last_auto_time&nbsp;(float):&nbsp;Marca&nbsp;de&nbsp;tiempo&nbsp;del&nbsp;último&nbsp;ingreso&nbsp;automático.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;last_click_time&nbsp;(float):&nbsp;Marca&nbsp;de&nbsp;tiempo&nbsp;del&nbsp;último&nbsp;clic.<br>
+&nbsp;<br>
+Métodos:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Player-reset">reset</a>(money):&nbsp;Reinicia&nbsp;los&nbsp;valores&nbsp;del&nbsp;jugador.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Player-click">click</a>():&nbsp;Agrega&nbsp;dinero&nbsp;al&nbsp;jugador&nbsp;por&nbsp;clic,&nbsp;si&nbsp;no&nbsp;hay&nbsp;cooldown&nbsp;activo.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Player-apply_auto_income">apply_auto_income</a>(now):&nbsp;Aplica&nbsp;ingresos&nbsp;automáticos&nbsp;cada&nbsp;segundo.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Player-can_afford">can_afford</a>(amount):&nbsp;Devuelve&nbsp;True&nbsp;si&nbsp;el&nbsp;jugador&nbsp;tiene&nbsp;dinero&nbsp;suficiente.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Player-draw_click_button">draw_click_button</a>(screen,&nbsp;font,&nbsp;mouse_pos,&nbsp;WIDTH,&nbsp;HEIGHT):&nbsp;Dibuja&nbsp;el&nbsp;botón&nbsp;de&nbsp;clic.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Player-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Inicializa&nbsp;al&nbsp;jugador&nbsp;con&nbsp;valores&nbsp;por&nbsp;defecto.</span></dd></dl>
+
+<dl><dt><a name="Player-apply_auto_income"><strong>apply_auto_income</strong></a>(self, now=None)</dt><dd><span class="code">Aplica&nbsp;el&nbsp;ingreso&nbsp;automático&nbsp;cada&nbsp;segundo.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;now&nbsp;(float,&nbsp;opcional):&nbsp;Tiempo&nbsp;actual.&nbsp;Si&nbsp;no&nbsp;se&nbsp;pasa,&nbsp;se&nbsp;usa&nbsp;time.time().</span></dd></dl>
+
+<dl><dt><a name="Player-can_afford"><strong>can_afford</strong></a>(self, amount)</dt><dd><span class="code">Comprueba&nbsp;si&nbsp;el&nbsp;jugador&nbsp;tiene&nbsp;suficiente&nbsp;dinero&nbsp;para&nbsp;una&nbsp;compra.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;amount&nbsp;(int):&nbsp;Precio&nbsp;o&nbsp;cantidad&nbsp;a&nbsp;comprobar.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;si&nbsp;el&nbsp;jugador&nbsp;tiene&nbsp;al&nbsp;menos&nbsp;esa&nbsp;cantidad&nbsp;de&nbsp;dinero.</span></dd></dl>
+
+<dl><dt><a name="Player-click"><strong>click</strong></a>(self)</dt><dd><span class="code">Ejecuta&nbsp;un&nbsp;clic&nbsp;del&nbsp;jugador&nbsp;y&nbsp;agrega&nbsp;dinero&nbsp;si&nbsp;pasó&nbsp;el&nbsp;cooldown.<br>
+&nbsp;<br>
+Usa&nbsp;la&nbsp;función&nbsp;auxiliar&nbsp;'can_earn'&nbsp;para&nbsp;verificar&nbsp;si&nbsp;puede&nbsp;ganar&nbsp;dinero<br>
+según&nbsp;el&nbsp;tiempo&nbsp;transcurrido&nbsp;desde&nbsp;el&nbsp;último&nbsp;clic.</span></dd></dl>
+
+<dl><dt><a name="Player-draw_click_button"><strong>draw_click_button</strong></a>(self, screen, font, mouse_pos, WIDTH, HEIGHT)</dt><dd><span class="code">Dibuja&nbsp;el&nbsp;botón&nbsp;central&nbsp;del&nbsp;clic&nbsp;en&nbsp;la&nbsp;pantalla.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;screen&nbsp;(pygame.Surface):&nbsp;Superficie&nbsp;donde&nbsp;se&nbsp;dibuja&nbsp;el&nbsp;botón.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;font&nbsp;(pygame.font.Font):&nbsp;Fuente&nbsp;utilizada&nbsp;para&nbsp;el&nbsp;texto&nbsp;del&nbsp;botón.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mouse_pos&nbsp;(tuple[int,&nbsp;int]):&nbsp;Posición&nbsp;actual&nbsp;del&nbsp;ratón.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;WIDTH&nbsp;(int):&nbsp;Ancho&nbsp;de&nbsp;la&nbsp;ventana&nbsp;del&nbsp;juego.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;HEIGHT&nbsp;(int):&nbsp;Alto&nbsp;de&nbsp;la&nbsp;ventana&nbsp;del&nbsp;juego.<br>
+&nbsp;<br>
+El&nbsp;botón&nbsp;cambia&nbsp;de&nbsp;color&nbsp;al&nbsp;pasar&nbsp;el&nbsp;cursor&nbsp;sobre&nbsp;él,<br>
+y&nbsp;su&nbsp;área&nbsp;se&nbsp;guarda&nbsp;en&nbsp;'self.<strong>click_rect</strong>'&nbsp;para&nbsp;detectar&nbsp;clics.</span></dd></dl>
+
+<dl><dt><a name="Player-reset"><strong>reset</strong></a>(self, money=0)</dt><dd><span class="code">Reinicia&nbsp;el&nbsp;jugador&nbsp;a&nbsp;su&nbsp;estado&nbsp;inicial.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;money&nbsp;(int):&nbsp;Cantidad&nbsp;de&nbsp;dinero&nbsp;inicial&nbsp;(por&nbsp;defecto,&nbsp;MONEY_START).</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>EARN_COOLDOWN</strong> = 0.2<br>
+<strong>MONEY_START</strong> = 0</td></tr></table>
+</body></html>
