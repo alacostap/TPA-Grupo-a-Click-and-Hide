@@ -29,32 +29,32 @@ Click & Hide v.1.0.0 es un juego en el que el jugador puede hacer clic repetidam
 
 
 # Ejecución
-**Clonar el repositorio**
-git clone https://github.com/alacostap/TPA-Grupo-a-Click-and-Hide.git
-cd TPA-Grupo-a-Click-and-Hide
+- Clonar el repositorio
+    git clone https://github.com/alacostap/TPA-Grupo-a-Click-and-Hide.git
+    cd TPA-Grupo-a-Click-and-Hide
 
-**Permitir la ejecución de scripts en PowerShell (solo la primera vez)**
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+- Permitir la ejecución de scripts en PowerShell (solo la primera vez/si error)**
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-**Crear y activar el entorno virtual**
-python -m venv venv
-venv\Scripts\activate
+- Crear y activar el entorno virtual
+    python -m venv venv
+    venv\Scripts\activate
 
-**Instalar dependencias**
-pip install -r requirements.txt
+- Instalar dependencias**
+    pip install -r requirements.txt
 
-**Ir a la carpeta del juego y ejecutar**
-cd ClickAndHide
-python main.py         # Ejecutar en modo normal
-python main.py --demo  # Ejecutar en modo demo
+- Ir a la carpeta del juego y ejecutar**
+    cd "ClickAndHide"      # Acceder a la ruta de la carpeta del juego donde esta el main.py
+    python main.py         # Ejecutar en modo normal
+    python main.py --demo  # Ejecutar en modo demo
 
-**Desactivar el entorno virtual**
-deactivate
+- Desactivar el entorno virtual
+    deactivate
 
 # Documentos HTML
-Clonar el repositorio (vease Ejecución)
-Acceder a la carpeta "Docs_HTML"
-Ejecutar cd.. si en la ruta TPA-Grupo-a-Click-and-Hide\ClickAndHide para acceder a TPA-Grupo-a-Click-and-Hide
-Ejecutar cd "Docs_HTML"
-Ejecutar start + nombre del archivo.
+- Clonar el repositorio (vease Ejecución)
+- Acceder a la carpeta "Docs_HTML"
+- Ejecutar cd.. si en la ruta TPA-Grupo-a-Click-and-Hide\ClickAndHide para acceder a TPA-Grupo-a-Click-and-Hide
+- Ejecutar cd "Docs_HTML"
+- Ejecutar start + nombre del archivo.
     Ejemplo: ``start main.html``
