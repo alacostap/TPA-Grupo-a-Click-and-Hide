@@ -17,10 +17,7 @@ from intro import play_intro
 from menu.main_menu import show_main_menu
 from save import save_game, load_game
 
-
-# =========================================================
-# GAME NORMAL
-# =========================================================
+# --- GAME NORMAL ---
 def run_game():
 
     pygame.init()
@@ -100,7 +97,7 @@ def run_game():
                 shop.handle_click(mouse_pos, player, achievements_manager)
                 save_game(player, shop)
 
-        # PROFESOR (gestiona dinero internamente)
+        # PROFESOR
         profesor.update(events, mouse_pos, click_happened, player)
 
         # PASIVO
@@ -126,9 +123,7 @@ def run_game():
         pygame.display.flip()
 
 
-# =========================================================
-# DEMO
-# =========================================================
+# --- DEMO ---
 def run_game_demo():
 
     pygame.init()
@@ -184,7 +179,7 @@ def run_game_demo():
             if event.type == pygame.QUIT:
                 running = False
 
-        # economía
+        # DINERO DEMO
         if not getattr(player, "locked", False):
             player.click()
             player.apply_auto_income()
