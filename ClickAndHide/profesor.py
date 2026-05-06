@@ -1,3 +1,7 @@
+"""
+profesor.py
+"""
+
 import pygame
 import os
 import random
@@ -48,7 +52,6 @@ class Profesor:
     def trigger_event(self, player):
         self.in_event = True
         self.active = True
-
         player.locked = True
 
         self.num1 = random.randint(1, 10)
@@ -66,7 +69,6 @@ class Profesor:
                 self.trigger_event(player)
 
         if self.in_event:
-
             for event in events:
                 if event.type == pygame.KEYDOWN:
 
@@ -80,11 +82,11 @@ class Profesor:
                         if event.unicode.isdigit():
                             self.answer += event.unicode
 
-            # TIMEOUT AUTOMÁTICO
+            # timeout
             if time.time() - self.event_start_time > self.event_duration:
                 self.resolve(player, timeout=True)
 
-    # --- RESOLVE ---
+    # --- RESOLVE (AQUÍ SE GESTIONA TODO) ---
     def resolve(self, player, timeout=False):
 
         if timeout:
@@ -99,14 +101,12 @@ class Profesor:
                 player.money -= 1000
 
         player.locked = False
-
         self.in_event = False
         self.active = False
         self.answer = ""
 
     # --- PANEL ---
     def draw_panel(self, screen):
-
         panel_width = 420
         panel_height = 180
 
@@ -120,22 +120,17 @@ class Profesor:
 
         return rect
 
-    # --- TIMER BAR ---
+    # --- TIMER ---
     def draw_timer(self, screen, panel):
         elapsed = time.time() - self.event_start_time
         progress = max(0, 1 - (elapsed / self.event_duration))
 
         bar_width = panel.width - 60
-        bar_height = 12
-
         x = panel.x + 30
         y = panel.y + panel.height - 25
 
-        bg_rect = pygame.Rect(x, y, bar_width, bar_height)
-        pygame.draw.rect(screen, (80, 80, 80), bg_rect, border_radius=6)
-
-        fill_rect = pygame.Rect(x, y, int(bar_width * progress), bar_height)
-        pygame.draw.rect(screen, (0, 200, 0), fill_rect, border_radius=6)
+        pygame.draw.rect(screen, (80, 80, 80), (x, y, bar_width, 12), border_radius=6)
+        pygame.draw.rect(screen, (0, 200, 0), (x, y, int(bar_width * progress), 12), border_radius=6)
 
     # --- DRAW ---
     def draw(self, screen):
@@ -146,25 +141,13 @@ class Profesor:
             screen.blit(self.prof1_img, (0, 0))
 
         if self.in_event:
-
             panel = self.draw_panel(screen)
 
             q = f"{self.num1} + {self.num2} = ?"
 
-            screen.blit(
-                self.font.render(q, True, self.brown),
-                (panel.x + 40, panel.y + 30)
-            )
+            screen.blit(self.font.render(q, True, self.brown), (panel.x + 40, panel.y + 30))
+            screen.blit(self.font.render(self.answer, True, (0, 0, 0)), (panel.x + 40, panel.y + 90))
+            screen.blit(self.small_font.render("ENTER para responder", True, self.brown),
+                        (panel.x + 40, panel.y + 120))
 
-            screen.blit(
-                self.font.render(self.answer, True, (0, 0, 0)),
-                (panel.x + 40, panel.y + 90)
-            )
-
-            screen.blit(
-            self.small_font.render("ENTER para responder", True, self.brown),
-            (panel.x + 40, panel.y + 125)
-            )
-
-            # --- BARRA DE TIEMPO ---
             self.draw_timer(screen, panel)

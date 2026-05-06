@@ -18,7 +18,9 @@ from menu.main_menu import show_main_menu
 from save import save_game, load_game
 
 
-# --- GAME NORMAL ---
+# =========================================================
+# GAME NORMAL
+# =========================================================
 def run_game():
 
     pygame.init()
@@ -63,7 +65,7 @@ def run_game():
         click_happened = False
         events = pygame.event.get()
 
-        # --- MENU ---
+        # MENU
         if state == "menu":
             choice = show_main_menu(
                 screen, font_small, font_big,
@@ -73,18 +75,20 @@ def run_game():
             if choice in ["EXIT", "SALIR"]:
                 running = False
                 continue
-            elif choice in ["PLAY", "JUGAR"]:
-                state = "playing"
-                continue
-            elif choice in ["CONTINUE", "CONTINUAR"]:
+            elif choice in ["PLAY", "JUGAR", "CONTINUE", "CONTINUAR"]:
                 state = "playing"
                 continue
 
-        # --- EVENTS ---
+        # EVENTS
         for event in events:
 
             if event.type == pygame.QUIT:
                 running = False
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    state = "menu"
+                    continue
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 click_happened = True
@@ -96,20 +100,14 @@ def run_game():
                 shop.handle_click(mouse_pos, player, achievements_manager)
                 save_game(player, shop)
 
-        # --- LOGIC ---
+        # PROFESOR (gestiona dinero internamente)
         profesor.update(events, mouse_pos, click_happened, player)
 
-        # SOLO RESUELVE UNA VEZ
-        if profesor.just_finished:
-            if profesor.correct:
-                player.money += 1000
-            else:
-                player.money -= 1000
-            profesor.just_finished = False
+        # PASIVO
+        if not getattr(player, "locked", False):
+            player.apply_auto_income()
 
-        player.apply_auto_income()
-
-        # ---------------- RENDER ----------------
+        # RENDER
         screen.blit(fondo_img, (0, 0))
 
         profesor.draw(screen)
@@ -127,7 +125,10 @@ def run_game():
 
         pygame.display.flip()
 
-# --- DEMO ---
+
+# =========================================================
+# DEMO
+# =========================================================
 def run_game_demo():
 
     pygame.init()
@@ -152,7 +153,6 @@ def run_game_demo():
 
     fondo_img = pygame.transform.scale(fondo_img, (WIDTH, HEIGHT))
 
-    # --- SYSTEMS ---
     player = Player()
     shop = Shop()
     profesor = Profesor(WIDTH, HEIGHT)
@@ -160,11 +160,8 @@ def run_game_demo():
     player.reset(MONEY_START)
     shop.init_items()
 
-    # --- CONTROL ---
     state = "idle"
     timer = 0.0
-
-    EVENT_COOLDOWN = 3
     last_event = 0.0
 
     ai_number = ""
@@ -173,7 +170,6 @@ def run_game_demo():
     running = True
     start_time = time.time()
 
-    # --- LOOP ---
     while running:
 
         dt = clock.tick(FPS) / 1000.0
@@ -188,50 +184,36 @@ def run_game_demo():
             if event.type == pygame.QUIT:
                 running = False
 
-        # --- ECONOMÍA ---
-        player.click()
+        # economía
+        if not getattr(player, "locked", False):
+            player.click()
+            player.apply_auto_income()
 
-        for item in shop.items:
-            while player.money >= item.cost:
-                player.money -= item.cost
-                item.amount += 1
-                item.cost = int(item.cost * 1.15)
-
-                if item.tipo == "click":
-                    player.click_income += item.base_income
-                else:
-                    player.auto_income += item.base_income
-
-        # --- PROFESOR UPDATE ---
         profesor.update(events, mouse_pos, False, player)
 
         timer += dt
 
-        # --- SPAWN EVENTO ---
         if state == "idle":
-            if time.time() - last_event > EVENT_COOLDOWN:
+            if time.time() - last_event > 3:
                 if random.randint(1, 180) == 1:
                     profesor.trigger_event(player)
                     state = "question"
                     timer = 0
                     reward_given = False
 
-        # --- PREGUNTA ---
         elif state == "question":
-            if timer >= 2.0:
+            if timer >= 2:
                 ai_number = str(profesor.correct_result)
+                profesor.answer = ai_number
                 state = "answer"
                 timer = 0
 
-        # --- RESPUESTA ---
         elif state == "answer":
-            if timer >= 2.0:
+            if timer >= 2:
                 state = "reward"
                 timer = 0
 
-        # --- RECOMPENSA ---
         elif state == "reward":
-
             if not reward_given:
                 player.money += 1000
                 reward_given = True
@@ -242,28 +224,11 @@ def run_game_demo():
                 state = "idle"
                 timer = 0
 
-        # --- DRAW ---
+        # DRAW
         screen.blit(fondo_img, (0, 0))
-
         profesor.draw(screen)
-
         draw_header(screen, font_medium, font_small, player)
-
         player.draw_click_button(screen, font_medium, mouse_pos, WIDTH, HEIGHT)
         shop.draw(screen, font_small, font_big, player, mouse_pos, WIDTH, HEIGHT)
-
-        # --- RESPUESTA IA LUGAR ---
-        if state in ["answer", "reward"] and profesor.in_event:
-
-            # posición EXACTA del input del profesor (sin redibujar panel)
-            panel_x = (profesor.width - 420) // 2
-            panel_y = (profesor.height - 180) // 2
-
-            txt = profesor.font.render(ai_number, True, (0, 0, 0))
-
-            screen.blit(txt, (panel_x + 40, panel_y + 90))
-
-        # --- PASIVO ---
-        player.apply_auto_income()
 
         pygame.display.flip()
