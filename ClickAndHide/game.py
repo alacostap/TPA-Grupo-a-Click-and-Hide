@@ -1,230 +1,269 @@
 """
-game.py — Lógica principal del juego Click & Hide.
-
-Contiene tanto el modo normal (con menú, intro y guardado)
-como el modo demo (automático, sin menú ni intro).
+game.py — Lógica principal del juego Click & Hide
 """
 
 import pygame
 import os
 import time
+import random
 
 from config import WIDTH, HEIGHT, FPS, MONEY_START
-from auxiliary import draw_gradient_background, draw_header
+from auxiliary import draw_header
 from entities.player import Player
 from entities.shop import Shop
 from entities.achievements import Achievements
+from profesor import Profesor
 from intro import play_intro
 from menu.main_menu import show_main_menu
 from save import save_game, load_game
 
 
-# --- MODO NORMAL DEL JUEGO ---
+# --- GAME NORMAL ---
 def run_game():
-    """
-    Ejecuta el bucle principal del juego Click & Hide.
 
-    Este modo incluye:
-      - Menú principal con opciones de juego.
-      - Pantalla de introducción.
-      - Sistema de guardado/carga de progreso.
-      - Gestión de clics, compras y logros.
+    pygame.init()
 
-    Comportamiento:
-      - Usa `ESC` para volver al menú.
-      - Guarda el progreso automáticamente tras cada acción.
-      - Dibuja interfaz principal (fondo, cabecera, tienda, etc.).
-
-    """
-    # --- Configuración de pantalla ---
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("CLICK AND HIDE")
     clock = pygame.time.Clock()
 
-    # --- Fuentes ---
     base_font_path = os.path.join(
         os.path.dirname(__file__), "assets", "fonts", "PressStart2P.ttf"
     )
+
     font_small = pygame.font.Font(base_font_path, 14)
     font_medium = pygame.font.Font(base_font_path, 18)
     font_big = pygame.font.Font(base_font_path, 28)
 
-    # --- Estado inicial ---
+    base_dir = os.path.dirname(__file__)
+    fondo_img = pygame.image.load(
+        os.path.join(base_dir, "assets", "images", "clase.png")
+    ).convert()
+
+    fondo_img = pygame.transform.scale(fondo_img, (WIDTH, HEIGHT))
+
     player = Player()
     shop = Shop()
     achievements_manager = Achievements()
-    load_game(player, shop)  # Carga el progreso anterior (si existe)
+    profesor = Profesor(WIDTH, HEIGHT)
 
-    running = True
+    load_game(player, shop)
+
     state = "menu"
-    header_height = 60
+    running = True
     game_started = player.total_clicks > 0 or player.money != MONEY_START
 
-    # --- Intro inicial ---
     play_intro(screen, "clase.png")
 
-    # --- Bucle principal ---
     while running:
-        dt = clock.tick(FPS) / 1000.0
+
+        clock.tick(FPS)
         mouse_pos = pygame.mouse.get_pos()
 
-        # --- Menú principal ---
+        click_happened = False
+        events = pygame.event.get()
+
+        # --- MENU ---
         if state == "menu":
             choice = show_main_menu(
-                screen, font_small, font_big, game_started, player, achievements_manager
+                screen, font_small, font_big,
+                game_started, player, achievements_manager
             )
+
             if choice in ["EXIT", "SALIR"]:
                 running = False
                 continue
             elif choice in ["PLAY", "JUGAR"]:
                 state = "playing"
-                if not game_started:
-                    player.reset(MONEY_START)
-                    shop.init_items()
-                    game_started = True
                 continue
             elif choice in ["CONTINUE", "CONTINUAR"]:
                 state = "playing"
                 continue
-            elif choice in ["ACHIEVEMENTS", "LOGROS", "CREDITS", "CRÉDITOS"]:
-                continue  # Futuras implementaciones
 
-        # --- Gestión de eventos ---
-        for event in pygame.event.get():
+        # --- EVENTS ---
+        for event in events:
+
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    state = "menu"
-                elif event.key == pygame.K_F11:
-                    pygame.display.toggle_fullscreen()
-            elif state == "playing":
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    if player.click_rect.collidepoint(mouse_pos):
-                        player.click()
-                        save_game(player, shop)
-                    shop.handle_click(mouse_pos, player, achievements_manager)
+
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                click_happened = True
+
+                if hasattr(player, "click_rect") and player.click_rect.collidepoint(mouse_pos):
+                    player.click()
                     save_game(player, shop)
-                shop.handle_scroll(event)
-                shop.handle_mouse_events(
-                    event, mouse_pos, header_height, HEIGHT - header_height
-                )
 
-        # --- Actualización y dibujo ---
-        if state == "playing":
-            draw_gradient_background(screen, WIDTH, HEIGHT)
-            draw_header(screen, font_medium, font_small, player)
-            player.draw_click_button(screen, font_medium, mouse_pos, WIDTH, HEIGHT)
-            shop.draw(screen, font_small, font_big, player, mouse_pos, WIDTH, HEIGHT)
+                shop.handle_click(mouse_pos, player, achievements_manager)
+                save_game(player, shop)
 
-            # Dinero pasivo
-            player.apply_auto_income()
-            save_game(player, shop)
+        # --- LOGIC ---
+        profesor.update(events, mouse_pos, click_happened, player)
 
-            # Actualización de logros
-            game_state = {
-                "money": player.money,
-                "total_clicks": player.total_clicks,
-                "upgrades_bought": sum(item.amount for item in shop.items),
-            }
-            achievements_manager.update_achievements(game_state)
-            achievements_manager.manage_notifications(screen, font_small)
+        # SOLO RESUELVE UNA VEZ
+        if profesor.just_finished:
+            if profesor.correct:
+                player.money += 1000
+            else:
+                player.money -= 1000
+            profesor.just_finished = False
+
+        player.apply_auto_income()
+
+        # ---------------- RENDER ----------------
+        screen.blit(fondo_img, (0, 0))
+
+        profesor.draw(screen)
+
+        draw_header(screen, font_medium, font_small, player)
+
+        player.draw_click_button(screen, font_medium, mouse_pos, WIDTH, HEIGHT)
+        shop.draw(screen, font_small, font_big, player, mouse_pos, WIDTH, HEIGHT)
+
+        achievements_manager.update_achievements({
+            "money": player.money,
+            "total_clicks": player.total_clicks,
+            "upgrades_bought": sum(i.amount for i in shop.items)
+        })
 
         pygame.display.flip()
 
-
-# --- MODO DEMO AUTOMÁTICO ---
+# --- DEMO ---
 def run_game_demo():
-    """
-    Ejecuta una versión automática del juego (modo demostración).
 
-    Este modo no incluye menú ni intro, y funciona sin interacción del jugador.
+    pygame.init()
 
-    Características:
-      - Realiza clics automáticos periódicos.
-      - Compra ítems de la tienda según el dinero disponible.
-      - Se cierra automáticamente después de 30 segundos.
-
-    Ideal para pruebas rápidas o capturas de pantalla.
-
-    """
-    # --- Configuración de pantalla ---
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("CLICK AND HIDE — DEMO")
     clock = pygame.time.Clock()
 
-    # --- Fuentes ---
     base_font_path = os.path.join(
         os.path.dirname(__file__), "assets", "fonts", "PressStart2P.ttf"
     )
+
     font_small = pygame.font.Font(base_font_path, 14)
     font_medium = pygame.font.Font(base_font_path, 18)
     font_big = pygame.font.Font(base_font_path, 28)
 
-    # --- Estado inicial ---
+    base_dir = os.path.dirname(__file__)
+
+    fondo_img = pygame.image.load(
+        os.path.join(base_dir, "assets", "images", "clase.png")
+    ).convert()
+
+    fondo_img = pygame.transform.scale(fondo_img, (WIDTH, HEIGHT))
+
+    # --- SYSTEMS ---
     player = Player()
     shop = Shop()
-    achievements_manager = Achievements()
-    header_height = 60
+    profesor = Profesor(WIDTH, HEIGHT)
 
     player.reset(MONEY_START)
     shop.init_items()
 
-    # --- Límite temporal de la demo ---
-    start_time = time.time()
-    max_duration = 30  # segundos
+    # --- CONTROL ---
+    state = "idle"
+    timer = 0.0
+
+    EVENT_COOLDOWN = 3
+    last_event = 0.0
+
+    ai_number = ""
+    reward_given = False
 
     running = True
+    start_time = time.time()
+
+    # --- LOOP ---
     while running:
+
         dt = clock.tick(FPS) / 1000.0
         mouse_pos = pygame.mouse.get_pos()
 
-        # Salida automática tras el límite
-        if time.time() - start_time > max_duration:
-            print("Demo finalizada automáticamente.")
+        if time.time() - start_time > 30:
             running = False
 
-        # --- Eventos ---
-        for event in pygame.event.get():
+        events = pygame.event.get()
+
+        for event in events:
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                running = False
 
-        # --- IA: clics y compras automáticas ---
+        # --- ECONOMÍA ---
         player.click()
+
         for item in shop.items:
             while player.money >= item.cost:
                 player.money -= item.cost
                 item.amount += 1
                 item.cost = int(item.cost * 1.15)
+
                 if item.tipo == "click":
                     player.click_income += item.base_income
                 else:
                     player.auto_income += item.base_income
-                player.upgrades_bought = getattr(player, "upgrades_bought", 0) + 1
 
-                game_state = {
-                    "money": player.money,
-                    "total_clicks": player.total_clicks,
-                    "upgrades_bought": player.upgrades_bought,
-                }
-                achievements_manager.update_achievements(game_state)
+        # --- PROFESOR UPDATE ---
+        profesor.update(events, mouse_pos, False, player)
 
-        # --- Dibujo ---
-        draw_gradient_background(screen, WIDTH, HEIGHT)
+        timer += dt
+
+        # --- SPAWN EVENTO ---
+        if state == "idle":
+            if time.time() - last_event > EVENT_COOLDOWN:
+                if random.randint(1, 180) == 1:
+                    profesor.trigger_event(player)
+                    state = "question"
+                    timer = 0
+                    reward_given = False
+
+        # --- PREGUNTA ---
+        elif state == "question":
+            if timer >= 2.0:
+                ai_number = str(profesor.correct_result)
+                state = "answer"
+                timer = 0
+
+        # --- RESPUESTA ---
+        elif state == "answer":
+            if timer >= 2.0:
+                state = "reward"
+                timer = 0
+
+        # --- RECOMPENSA ---
+        elif state == "reward":
+
+            if not reward_given:
+                player.money += 1000
+                reward_given = True
+
+            if timer >= 0.5:
+                profesor.resolve(player)
+                last_event = time.time()
+                state = "idle"
+                timer = 0
+
+        # --- DRAW ---
+        screen.blit(fondo_img, (0, 0))
+
+        profesor.draw(screen)
+
         draw_header(screen, font_medium, font_small, player)
+
         player.draw_click_button(screen, font_medium, mouse_pos, WIDTH, HEIGHT)
         shop.draw(screen, font_small, font_big, player, mouse_pos, WIDTH, HEIGHT)
 
-        # Dinero pasivo + logros
+        # --- RESPUESTA IA LUGAR ---
+        if state in ["answer", "reward"] and profesor.in_event:
+
+            # posición EXACTA del input del profesor (sin redibujar panel)
+            panel_x = (profesor.width - 420) // 2
+            panel_y = (profesor.height - 180) // 2
+
+            txt = profesor.font.render(ai_number, True, (0, 0, 0))
+
+            screen.blit(txt, (panel_x + 40, panel_y + 90))
+
+        # --- PASIVO ---
         player.apply_auto_income()
-        game_state = {
-            "money": player.money,
-            "total_clicks": player.total_clicks,
-            "upgrades_bought": sum(item.amount for item in shop.items),
-        }
-        achievements_manager.update_achievements(game_state)
-        achievements_manager.manage_notifications(screen, font_small)
 
         pygame.display.flip()
